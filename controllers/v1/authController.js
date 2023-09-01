@@ -138,7 +138,7 @@ export const editProfile = async (req,res)=>{
             
             // Updating Phone 
             if(user.phone!== phone){
-                
+                console.log('LOG : Phone nuber update pending')
             }
             
             // Updating Avatar 
@@ -150,11 +150,13 @@ export const editProfile = async (req,res)=>{
                 user.avatar = req.file.path
             }
             
-            await user.save()
+            // await user.save()
+            user = await User.findByIdAndUpdate(user._id || user.id , user)
 
         })
         return res.status(200).json({
-            message : 'Edit Profile pending'
+            message : 'Profile Updated Successfully',
+            data  : user
         })
     } catch (error) {
         
