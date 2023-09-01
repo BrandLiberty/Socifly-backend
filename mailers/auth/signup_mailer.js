@@ -1,9 +1,9 @@
 import { transporter, renderTemplate } from "../../config/nodemailer.js";
 
-const sign = (user) => {
+const signMailer = (user, hash) => {
   console.log("from signup mailer");
 
-  let htmlString = renderTemplate({ user: user }, "/auth/signup_mailer.ejs");
+  let htmlString = renderTemplate({ user , hash}, "/auth/signup_mailer.ejs");
 
   const mailoption = {
     from: "taigorad10@gmail.com",
@@ -22,4 +22,4 @@ const sign = (user) => {
   });
 };
 
-export default sign;
+export default signMailer;

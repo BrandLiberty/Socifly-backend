@@ -1,16 +1,9 @@
 <div>
+    <h1>
+        Solicify
+    </h1>
     <p>
-        Hi <%= user.name%>
-    </p>
-    <br>
-    <br>
-    <p>
-          you have signed successfully
-    </p>
-    <br>
-    <br>
-    <p>
-        Thanks 
+        <%=user.name%>! Welcome to Socifly. <a href="http://localhost:8000/v1/auth/verify-email?email=<%=user.email%>&hash=<%=hash%>">Click here</a> to verify your email
     </p>
 </div>
 
