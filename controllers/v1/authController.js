@@ -15,7 +15,7 @@ export const createSession = async function(req,res){
         console.log('API : /v1/auth/create-session',req?.body)
         let user = await User.findOne({email : req.body.email});
 
-        console.log('CHecking what the user is inside the creates session',user,bcrypt.compareSync(req?.body?.password, user?.hash));
+        console.log('CHecking what the user is inside the creates session',user);
 
         if(!user || !bcrypt.compareSync(req?.body?.password, user?.hash)){
             return res.status(422).json({
@@ -104,7 +104,7 @@ export const signUp = async(req,res)=>{
 export const editProfile = async (req,res)=>{
     console.log('API : /v1/auth/edit-profile',req.user)
     try {
-        const user = req.user;
+        let user = req.user;
         await User.uploadAvatar(req,res,async function(err){
             if(err){
                 console.log('LOG : Multer Error',err)
