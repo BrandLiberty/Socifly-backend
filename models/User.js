@@ -31,10 +31,6 @@ const userSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
-    status :{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'PendingUser'
-    },
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId
