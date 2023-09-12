@@ -19,7 +19,7 @@ app.use(expressLayouts);
 
 // CONFIGURING VIEW ENGINE 
 app.set('view engine','ejs');
-app.set('views',['./views','./views/info','./views/auth']);
+app.set('views',['./views','./views/info','./views/auth', './views/admin_panel']);
 
 // MANAGING STYLES AND SCRIPTS FROM VARIOUS VIEWS FOLLOWING LAYOUTS 
 app.set('layout extractStyles',true);

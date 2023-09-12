@@ -1,0 +1,77 @@
+/* Reset some default styles for lists and anchors */
+body, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Style the navbar */
+.navbar {
+    position: fixed;
+    background-color: #3a033fe6; /* Change this to your desired background color */
+    color: #fff; /* Change this to your desired text color */
+    padding: 10px 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 20);
+    width: 100%;
+    top:0;
+}
+
+.logo img {
+    width: 50px; /* Adjust the width of the logo image */
+    margin-left: 1rem;
+}
+
+/* Center the logo and align the navigation links to the right */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100vw;
+    height: 10vh;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+    display: flex;
+    align-items: center; 
+    transform: scale(1.5);
+    margin-left: 2rem;
+}
+
+.logout{
+    color: #fff;
+    font-size: 24px;
+    margin-right:24px ;  
+}
+
+
+/* Style the "Admin Panel" text */
+.logo .admin {
+    color: #fff;
+    font-size: 14px; /* Reduce the font size */
+    margin-right: 2rem;
+    /* margin-left: 3rem; */
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-right: 4rem; /* Adjust the spacing between links */
+}
+
+.nav-links a {
+    color: #fff; /* Change this to your desired link text color */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* Remove the default underline */
+}

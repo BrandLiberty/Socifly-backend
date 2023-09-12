@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/css/admin_panel/upload.css">
+
+<%- include('_navbar.ejs') %>
+    <div class="uploads">
+        <h1>Upload Image</h1>
+        <div class="maincategory">
+            <input type="text" id="customCategorys" name="customCategorys" placeholder="Enter Custom Category">
+            <button id="addCategoryBtn" type="button">Add Category</button>
+        </div>
+        <form id="fileInput" action="http://localhost:8000/v1/upload" method="POST" enctype="multipart/form-data"
+            class="froms">
+            <label for="category" class="selcat">Select Category:</label>
+            <select id="category" name="category" size="1">
+                <option value="Morning">Good Morning </option>
+                <option value="Night">Good Night </option>
+                <option value="Birthday">Birthday</option>
+                <option value="Festival">Festival</option>
+                <option value="other">Other</option>
+                <!-- Add more categories as needed -->
+            </select>
+            <input type="file" name="images" accept="image/*" multiple>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="uploaded-images">
+            <!-- The uploaded images will be displayed here -->
+        </div>
+    </div>
+
+    <script src="/script/upload.js"></script>
