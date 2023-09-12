@@ -1,0 +1,85 @@
+
+
+/* Style the navbar */
+.navbar {
+    position: fixed;
+    background-color: #3a033fe6;
+    color: #fff;
+    padding: 10px 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 20);
+    width: 100%;
+    top: 0;
+    flex:1;
+    z-index: 10;
+   
+}
+
+.logo img {
+    width: 50px;
+    margin-left: 1rem;
+}
+
+/* Center the logo and align the navigation links to the right */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100vw;
+    height: 10vh;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transform: scale(1.5);
+    margin-left: 2rem;
+}
+
+.logout {
+    color: #fff;
+    font-size: 20px;
+    margin-right: 2rem;
+}
+
+.logout:hover {
+    text-decoration: none;
+    transform: scale(1.1);
+}
+
+/* Style the "Admin Panel" text */
+.logo .admin {
+    color: #fff;
+    font-size: 14px;
+    margin-right: 2rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-right: 4rem;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Style the active link with an underline */
+.nav-links .active a {
+    text-decoration: underline;
+}
+
+/* Add a hover effect to non-active links */
+.nav-links li:not(.active):hover {
+    text-decoration: underline;
+    transform: scale(1.1);
+}
