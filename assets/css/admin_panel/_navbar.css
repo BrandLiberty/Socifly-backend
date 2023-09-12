@@ -1,4 +1,9 @@
-
+/* Reset some default styles for lists and anchors */
+body, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
 
 /* Style the navbar */
 .navbar {

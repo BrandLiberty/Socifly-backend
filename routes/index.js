@@ -33,6 +33,13 @@ router.get('/v1/profile',(req,res)=>{
     return res.render('profile.ejs',{
             title: 'Socifly:Profile',
     
+    
+    })
+})
+router.get('/v1/upload',(req,res)=>{
+    return res.render('upload.ejs',{
+            title: 'Socifly:Upload',
+    
     })
 })
 
