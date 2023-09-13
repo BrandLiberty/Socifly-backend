@@ -1,0 +1,74 @@
+
+<div class="mainBody">
+<link rel="stylesheet" href="/css/admin_panel/profile.css">
+<div class="profile-header">
+    <h1>Profile Section</h1>
+
+<div class="back-button-container">
+    <a class="back-button" href="http://localhost:8000/v1/manage_user">Back</a>
+</div>
+</div>
+<div class="profile-section">
+   
+    <div class="profile-left">
+        <img src="/images/Profile.png" alt="Profile">
+        <div class="user-info">
+            <div class="user-name">User Name</div>
+            <div class="info">
+                <span class="heading">Phone No</span>: 9876543210
+            </div>
+            <div class="info">
+                <span class="heading">Email</span>: useremail@email.com
+            </div>
+            <div class="info">
+                <span class="heading">Birth Date</span>: 01/01/2001
+            </div>
+        </div>
+        <div class="action-buttons">
+            <button class="unverify-button">Unverify</button>
+            <button class="delete-button">Delete</button>
+            <button class="ban-button">Ban</button>
+        </div>
+    </div>
+    <div class="profile-right">
+        <div class="activity-info">
+            <div class="activity-heading">User Activity</div>
+            <div class="activity-item">
+                <span class="heading">Sign-up date</span>: 12/15/2022
+            </div>
+            <div class="activity-item">
+                <span class="heading">Last Log-In</span>: 01/02/2023 10:30 AM
+            </div>
+            <div class="activity-item">
+                <span class="heading">Last Log-Out</span>: 01/02/2023 10:30 AM
+            </div>
+            <div class="activity-item">
+                <span class="heading">No. of Likes</span>: 10
+            </div>
+            <div class="activity-item">
+                <span class="heading">No. of Shares</span>: 15
+            </div>
+          
+            <div class="activity-item">
+                <span class="login-status active">Active</span>
+                <!-- <span class="login-date">Last Login: 01/02/2023 10:30 AM</span> -->
+            </div>
+            <!-- Add more activity items as needed -->
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal for confirmation -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <h2>Confirmation</h2>
+        <p>Are you sure you want to perform this action?</p>
+        <div class="modal-buttons">
+            <button id="cancelButton" class="cancel-button">Cancel</button>
+            <button id="confirmButton" class="confirm-button">Confirm</button>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/script/admin_panel/profile.js"></script>
