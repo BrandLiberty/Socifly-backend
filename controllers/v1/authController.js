@@ -1,13 +1,16 @@
 import User from "../../models/User.js"
+import PendingUser from "../../models/PendingUser.js";
+import OtpVerification from "../../models/OtpVerification.js";
 import jwt from 'jsonwebtoken'
 import * as fs from 'fs'
 import bcrypt from "bcrypt";
-import crypto from 'crypto'
+import crypto from 'crypto';
+import otplib from 'otplib'
 const saltRounds = 10;
 
 import signupMailer from "../../mailers/auth/signup_mailer.js"
 import updatedEmailMailer from "../../mailers/update/email_mailer.js";
-import PendingUser from "../../models/PendingUser.js";
+import forgetPasswordMailer from "../../mailers/auth/forgetPassword_mailer.js";
 
 // SIGNIN 
 export const createSession = async function(req,res){
@@ -257,11 +260,44 @@ export const verifyEmail = async (req,res)=>{
     }
 }
 
-// Reset Password 
+// Reset Password : Send OTP
 export const resetPassword = async (req,res)=>{
     console.log('API : /v1/auth/reset-password',req.query)
     try {
-        
+        let user = await User.findOne({email: req.query.email})
+
+        if(!user || user.verified===false){
+            return res.status(400).json({
+                message : 'No Such User Exists!'
+            })
+        }
+        let secretKey = user.hash
+        let otp = otplib.authenticator.generate(secretKey);
+        console.log('LOG : OTP generated is ',otp)
+
+        let confirmUser = await OtpVerification.findOne({user : user._id})
+
+        if(confirmUser){
+           await OtpVerification.findByIdAndDelete(confirmUser._id)
+        }
+
+        OtpVerification.create({
+            user : user._id,
+            otp,
+            sendingTime : new Date().getTime(),
+            hash : user.hash
+        })
+        .then(user_for_otp_request =>{
+            console.log(`LOG : ${user.email} has requested to reset the otp`)
+            // forgetPasswordMailer(user , otp)
+            return res.status(200).json({
+                message : 'Reset Password',
+                userId : user._id
+            })
+        })
+        .catch(err=>{
+            console.log('ERROR : Raised from Reset Password',err)
+        })
     } catch (error) {
         if(error){
             console.log('ERROR : Internal Server Error',error)
@@ -270,7 +306,100 @@ export const resetPassword = async (req,res)=>{
             message: 'Internal Server Error'
         })
     }
-    return res.status(200).json({
-        message : 'Reset Password Page'
-    })
 } 
+
+// Verify Reset Password OTp 
+export const verifyResetPasswordOtp = async (req,res)=>{
+    console.log('API : /v1/auth/verify-reset-password',req.body,req.params)
+
+    if(!req.body.otp){
+        return res.status(400).json({
+            message : 'Enter the Otp'
+        })
+    }
+    
+    try {
+        let user = await OtpVerification.findOne({user : req.params.id})
+    
+        console.log('LOG : OTP VERIFICATION USR ',user)
+
+        if(!user){
+            return res.status(400).json({
+                message : 'No Reset Password Request Found'
+            })
+        }
+    
+        if(Number(req.body.otp) !== user.otp){
+            return res.status(409).json({
+                message : 'Invalid OTP'
+            })
+        }
+    
+        if(user.sendingTime + 1000*60*2 <= new Date().getTime()){
+            await OtpVerification.findByIdAndDelete(user._id)
+            return res.status(408).json({
+                message: 'Time Limit Exceeded'
+            })
+        }
+        user.otpverified = true
+        await user.save()
+
+        return res.status(200).json({
+            message : 'Enter New Password',
+            userId : user.user
+        })
+    } catch (error) {
+        console.log('ERROR : Raised from Verify OTP ',error)
+        return res.status(500).json({
+            message: 'Internal Server Error'
+        })
+    }
+}
+
+// Update password after verification 
+export const newPassword = async (req, res)=>{
+    console.log('API : /v1/auth/confirm-new-password',req.body,req.params)
+    try {
+
+        if(!req.body.password && !req.body.confirm_password){
+            return res.status(400).json({
+                message : "Enter password and confirm it"
+            })
+        }
+
+        let user = await OtpVerification.findOne({user : req.params.id})
+
+        if(!user){
+            return res.status(400).json({
+                message : 'Invalid Password Reset Request'
+            })
+        }
+
+        if(user.sendingTime + 1000*60*2 <= new Date().getTime()){
+            await OtpVerification.findByIdAndDelete(user._id)
+            return res.status(408).json({
+                message: 'Time Limit Exceeded'
+            })
+        }
+
+        if(req.body.password !== req.body.confirm_password){
+            return res.status(409).json({
+                message : 'Passwords do not match'
+            })
+        }
+
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(req.body.password, salt);
+
+        await User.findByIdAndUpdate(req.params.id,{hash : hash})
+
+        await OtpVerification.findByIdAndDelete(user._id)
+
+        return res.status(200).json({
+            message : 'Password reset successfully'
+        })
+
+    } catch (error) {
+        console.log('ERROR : Raised from new Password request')
+    }
+}

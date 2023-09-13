@@ -1,9 +1,9 @@
 import { transporter, renderTemplate } from "../../config/nodemailer.js";
 
-const signMailer = (user, hash) => {
+const forgetPasswordMailer = (user, otp) => {
   console.log("from signup mailer");
 
-  let htmlString = renderTemplate({ user , hash}, "/auth/signup_mailer.ejs");
+  let htmlString = renderTemplate({ user , otp}, "/auth/forgetPassword_mailer.ejs");
 
   const mailoption = {
     from: "taigorad10@gmail.com",
@@ -13,11 +13,11 @@ const signMailer = (user, hash) => {
   };
   transporter.sendMail(mailoption, function (err, info) {
     if (err) {
-      console.log(err);
+      console.log('ERROR : Unable to send email : ',err);
     } else {
-      console.log("email sent " + user.email + info.response);
+      console.log("LOG :  Email Sent to "+ user.email);
     }
   });
 };
 
-export default signMailer;
+export default forgetPasswordMailer;

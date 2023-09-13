@@ -7,7 +7,9 @@ import {
     editProfile , 
     updateEmail ,
     verifyEmail ,
-    resetPassword
+    resetPassword,
+    verifyResetPasswordOtp,
+    newPassword
 } from "../../../controllers/v1/authController.js"
 import passport from "passport";
 
@@ -26,6 +28,9 @@ router.get('/update-email',updateEmail)
 router.get('/verify-email',verifyEmail)
 // Reset Password 
 router.get('/reset-password',resetPassword)
+// Verify Reset Password OTP
+router.post('/verify-reset-password-otp/:id',verifyResetPasswordOtp)
+router.post('/confirm-new-password/:id',newPassword)
 
 
 export default router

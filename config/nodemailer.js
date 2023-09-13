@@ -6,8 +6,8 @@ const __dirname = path.resolve(path.dirname(''));
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "taigorad10@gmail.com",
-    pass: "ldewcthpgxcdxoen",
+    user: "app.brandliberty@gmail.com",
+    pass: "qpjzgvjjyofsygqq",
   },
 });
 

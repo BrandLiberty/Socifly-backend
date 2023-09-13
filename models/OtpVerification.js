@@ -1,25 +1,31 @@
 import mongoose from 'mongoose'
 
 const otpVerificationSchema = new mongoose.Schema({
-    user : {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref : 'User',
-        required : true
+        ref: 'User',
+        required: true,
+        unique: true
     },
-    otp : {
-        type :Number,
+    otp: {
+        type: Number,
+        required: true
     },
-    sendingTime : {
-        type : Number,
-        unique : true
+    otpverified: {
+        type: Boolean,
+        default: false
     },
-    hash : {
-        type : String,
-        required : true,
-        default : ''
+    sendingTime: {
+        type: Number,
+        required: true
+    },
+    hash: {
+        type: String,
+        required: true,
+        default: ''
     }
-},{
-    timestamps : true
+}, {
+    timestamps: true
 })
 
 const OtpVerification = mongoose.model('OtpVerification', otpVerificationSchema)
