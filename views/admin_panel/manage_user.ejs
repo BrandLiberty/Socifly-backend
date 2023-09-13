@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/admin_panel/manage_user.css">
+
+
+
+<%- include('_navbar.ejs') %>
+
+    <div class="main">
+        <h1>Manage Users</h1>
+        <div class="searchContainer">
+            <form action="/search" method="GET">
+                <div class="searchBar">
+                    <input type="text" name="emailQuery" placeholder="Search by Email">
+                    <button type="submit">Search</button>
+                </div>
+                <div class="searchBar">
+                    <input type="text" name="phoneQuery" placeholder="Search by Phone">
+                    <button type="submit">Search</button>
+                </div>
+                <div class="searchBar">
+                    <input type="text" name="nameQuery" placeholder="Search by Name">
+                    <button type="submit">Search</button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="box_main">
+            
+        <%- include('_user_box.ejs') %>
+        <%- include('_user_box.ejs') %>
+        <%- include('_user_box.ejs') %>
+    </div>
+    </div>
