@@ -36,11 +36,5 @@ router.get('/v1/profile',(req,res)=>{
     
     })
 })
-router.get('/v1/upload',(req,res)=>{
-    return res.render('upload.ejs',{
-            title: 'Socifly:Upload',
-    
-    })
-})
 
 export default router

@@ -32,8 +32,8 @@ app.set('view options', { layout: true });
 app.use(express.static('./assets'));
 
 // Configuring Parser 
-// app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.json())
+// app.use(express.urlencoded())
 
 // MAKE AVAILABLE UPLOADS OF THE USER 
 app.use('/uploads',express.static(__dirname + '/uploads'))

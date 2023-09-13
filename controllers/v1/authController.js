@@ -18,7 +18,7 @@ export const createSession = async function(req,res){
         console.log('CHecking what the user is inside the creates session',user);
 
         if(!user || !bcrypt.compareSync(req?.body?.password, user?.hash)){
-            return res.status(422).json({
+            return res.status(400).json({
                 message : 'Invalid email or password'
             });
         }
@@ -30,7 +30,7 @@ export const createSession = async function(req,res){
         }
 
         return res.status(200).json({
-            message : 'Sign In successful here is your token keep it safe',
+            message : `Welcome ${user.name}`,
             data :{
                 token : jwt.sign(user.toJSON(),'aman',{expiresIn:'10000000'})
             }
@@ -86,7 +86,7 @@ export const signUp = async(req,res)=>{
         })
         console.log('User Created Successfully');
         return res.status(200).json({
-            message : 'User Created Succesully',
+            message : 'You are registered Succesully! Verify Your Email',
             data : user
         })
     })
@@ -163,6 +163,7 @@ export const editProfile = async (req,res)=>{
     }
 }
 
+// Update Email 
 export const updateEmail = async (req,res)=>{
     console.log('API : /v1/auth/update-email',req.query)
     try {
@@ -208,6 +209,7 @@ export const updateEmail = async (req,res)=>{
     }
 }
 
+// Verify Email 
 export const verifyEmail = async (req,res)=>{
     console.log('API : /v1/auth/verify-email',req.query)
     try {
@@ -254,3 +256,21 @@ export const verifyEmail = async (req,res)=>{
         })
     }
 }
+
+// Reset Password 
+export const resetPassword = async (req,res)=>{
+    console.log('API : /v1/auth/reset-password',req.query)
+    try {
+        
+    } catch (error) {
+        if(error){
+            console.log('ERROR : Internal Server Error',error)
+        }
+        return res.status(200).json({
+            message: 'Internal Server Error'
+        })
+    }
+    return res.status(200).json({
+        message : 'Reset Password Page'
+    })
+} 
