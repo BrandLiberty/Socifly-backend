@@ -11,6 +11,8 @@ import{
     manageAdmin
 }from '../../../controllers/v1/authorController.js'
 
+import action from './action.js'
+
 router.get('/',home)
 
 router.post('/signin',passport.authenticate(
@@ -22,5 +24,7 @@ router.get('/signout',signOut)
 router.get('/manage-user',passport.checkAuthentication,manageUser)
 router.get('/manage-admin',passport.checkAuthentication,manageAdmin)
 router.get('/upload', passport.checkAuthentication,uploads)
+
+router.use('/action',passport.checkAuthentication,action)
 
 export default router
