@@ -18,6 +18,7 @@ export const uploads = (req,res)=>{
 
         let categories = Category.find({})
 
+
         return res.render('upload',{
             title: 'Socifly : Uploads',
             categories
@@ -84,6 +85,16 @@ export const createCategory = async(req,res)=>{
         })
 
         return res.redirect('/v1/author/upload')
+    } catch (error) {
+        
+    }
+}
+
+export const getCategory = async (req,res)=>{
+    console.log('LOG : get Category')
+    try {
+        let category = await Category.find({}).select('type')
+        console.log
     } catch (error) {
         
     }
