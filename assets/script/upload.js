@@ -1,4 +1,3 @@
-
 const fileInput = document.querySelector('input[type="file"]');
 const previewContainer = document.getElementById('uploaded-images');
 const customCategoryInput = document.getElementById('customCategorys');

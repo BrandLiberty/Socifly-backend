@@ -15,8 +15,12 @@ export const home = (req,res)=>{
 
 export const uploads = (req,res)=>{
     try {
+
+        let categories = Category.find({})
+
         return res.render('upload',{
-            title: 'Socifly : Uploads'
+            title: 'Socifly : Uploads',
+            categories
         })
     } catch (error) {
         
@@ -64,6 +68,23 @@ export const signOut = function(req,res){
       });
 }
 
-export const createCategory = (req,res)=>{
+export const createCategory = async(req,res)=>{
+    console.log('LOG : /v1/author/action/create-category')
+    try {
+        const {category}  = req.body
 
+        let cat = Category.findOne({type : category})
+
+        if(cat){
+            return res.redirect('/v1/author/upload')
+        }
+
+        cat = await Category.create({
+            type : category
+        })
+
+        return res.redirect('/v1/author/upload')
+    } catch (error) {
+        
+    }
 }
