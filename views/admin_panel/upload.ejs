@@ -1,42 +1,6 @@
 <link rel="stylesheet" href="/css/admin_panel/upload.css">
 
-<% const categories = [{
-    type: "good morning",
-    _id :1
-},{
-    type:"good afternoon",
-    _id : 2
-},{
-    type: "good morning",
-    _id :1
-},{
-    type:"good afternoon",
-    _id : 2
-},{
-    type: "good morning",
-    _id :1
-},{
-    type:"good afternoon",
-    _id : 2
-},{
-    type: "good morning",
-    _id :1
-},{
-    type:"good afternoon",
-    _id : 2
-},{
-    type: "good morning",
-    _id :1
-},{
-    type:"good afternoon",
-    _id : 2
-},{
-    type: "good morning",
-    _id :1
-},{
-    type:"good afternoon",
-    _id : 2
-}]%>
+
 
 <%- include('_navbar.ejs') %>
 
@@ -45,8 +9,10 @@
         <h1>Upload Image</h1>
 
         <div class="maincategory">
-            <input type="text" id="customCategorys" name="customCategorys" placeholder="Enter Custom Category">
-            <button class="addCategoryBtn" type="button">Add Category</button>
+        <form action="/v1/author/action/create-category" method="post">
+            <input type="text" id="customCategorys" name="category" placeholder="Enter Custom Category">
+            <button class="addCategoryBtn" type="submit">Add Category</button>
+        </form>
             <!-- Manage category Btn -->
             <button id="deleteCategoryBtn" class="addCategoryBtn">Manage Category</button>
         </div>
