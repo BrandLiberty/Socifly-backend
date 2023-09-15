@@ -5,6 +5,7 @@ body{
 .uploads{
     margin-top: 10rem;
     justify-content: center;
+    /* align-items: center; */
     text-align: center;
     color: #fff;
 }
@@ -57,7 +58,7 @@ button:hover {
     box-shadow: 0px 0px 10px rgba(201, 12, 68, 0.3);
 }
 
-#addCategoryBtn{
+.addCategoryBtn{
     background: linear-gradient(to bottom, #8b0e68, #20033f);
     color: white;
     border: none;
@@ -89,4 +90,22 @@ select#category {
     height: 150px; /* Adjust the height as needed */
     overflow-y: scroll;
     border: 1px solid #ccc; /* Add a border for visual separation */
+}
+
+.mngCat {
+    display: none;
+    width: 100vw;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+/* Adding Delete Category */
+
+
+.category-list{
+    height: 10%;
+    width: 30%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
 }
