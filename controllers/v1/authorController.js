@@ -13,15 +13,14 @@ export const home = (req,res)=>{
     }
 }
 // Adding Delete Functionality in Categories
-export const del_cat = (req,res) =>{
+export const del_cat = async (req,res) =>{
 
 }
-export const uploads = (req,res)=>{
+export const uploads = async(req,res)=>{
     try {
 
-        let categories = Category.find({})
-
-
+        let categories = await Category.find({}).lean()
+        console.log("LOG : rendering Category",categories)
         return res.render('upload',{
             title: 'Socifly : Uploads',
             categories
@@ -73,11 +72,11 @@ export const signOut = function(req,res){
 }
 
 export const createCategory = async(req,res)=>{
-    console.log('LOG : /v1/author/action/create-category')
+    console.log('LOG : /v1/author/action/create-category',req.body)
     try {
         const {category}  = req.body
 
-        let cat = Category.findOne({type : category})
+        let cat = await Category.findOne({type : category})
 
         if(cat){
             return res.redirect('/v1/author/upload')
