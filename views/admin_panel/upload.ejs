@@ -1,26 +1,84 @@
 <link rel="stylesheet" href="/css/admin_panel/upload.css">
 
+<% const categories = [{
+    type: "good morning",
+    _id :1
+},{
+    type:"good afternoon",
+    _id : 2
+},{
+    type: "good morning",
+    _id :1
+},{
+    type:"good afternoon",
+    _id : 2
+},{
+    type: "good morning",
+    _id :1
+},{
+    type:"good afternoon",
+    _id : 2
+},{
+    type: "good morning",
+    _id :1
+},{
+    type:"good afternoon",
+    _id : 2
+},{
+    type: "good morning",
+    _id :1
+},{
+    type:"good afternoon",
+    _id : 2
+},{
+    type: "good morning",
+    _id :1
+},{
+    type:"good afternoon",
+    _id : 2
+}]%>
+
 <%- include('_navbar.ejs') %>
+
     <div class="uploads">
+
         <h1>Upload Image</h1>
+
         <div class="maincategory">
             <input type="text" id="customCategorys" name="customCategorys" placeholder="Enter Custom Category">
-            <button id="addCategoryBtn" type="button">Add Category</button>
+            <button class="addCategoryBtn" type="button">Add Category</button>
+            <!-- Manage category Btn -->
+            <button id="deleteCategoryBtn" class="addCategoryBtn">Manage Category</button>
         </div>
+
+        <form id="" action="" method="Post" class="mngCat">
+            
+            
+                <% for(let el of categories){%>
+                    <div class="category-list addCategoryBtn">
+                        <div class="category"><%=el.type%></div>
+                        <div class="close-button" onclick="deleteCategory('<%=el._id%>')">X</div>
+                    </div>
+                 <%}%>
+             </ul>
+        </form>
+
         <form id="fileInput" action="http://localhost:8000/v1/upload" method="POST" enctype="multipart/form-data"
             class="froms">
+
             <label for="category" class="selcat">Select Category:</label>
-            <select id="category" name="category" size="1">
-                <option value="Morning">Good Morning </option>
-                <option value="Night">Good Night </option>
-                <option value="Birthday">Birthday</option>
-                <option value="Festival">Festival</option>
-                <option value="other">Other</option>
+            <select id="category" name="category" size="1" class="uppercase">
+                <%for(let el of categories){%>
+                    <option value = "<%=el.type%>" class="uppercase"> <%=el.type%> </option>
+                <%}%>
+                
                 <!-- Add more categories as needed -->
             </select>
             <input type="file" name="images" accept="image/*" multiple>
             <button type="submit">Upload</button>
+
         </form>
+
         <div id="uploaded-images">
             <!-- The uploaded images will be displayed here -->
         </div>

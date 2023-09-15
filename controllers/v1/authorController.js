@@ -6,13 +6,16 @@ import Images from '../../models/Images.js'
 export const home = (req,res)=>{
     try {
         return res.render('home',{
-            title: 'Socifly : Admin'
+            title: 'Socifly : Admin',
         })
     } catch (error) {
         
     }
 }
+// Adding Delete Functionality in Categories
+export const del_cat = (req,res) =>{
 
+}
 export const uploads = (req,res)=>{
     try {
 
