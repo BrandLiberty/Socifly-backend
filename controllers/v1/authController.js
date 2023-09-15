@@ -116,10 +116,10 @@ export const editProfile = async (req,res)=>{
                 })
             }
             const {email , name, phone , avatar} = req.body
-            // console.log('API : /v1/auth/edit-profile',req?.body)
+            console.log('API : /v1/auth/edit-profile',req?.body)
 
             // UPDATING EMAIL 
-            if(user.email!==email){
+            if(user.email!==email && email!== undefined){
                 let key = crypto.randomBytes(20).toString('hex');
                 user.underUpdate = true
                 PendingUser.create({
@@ -150,16 +150,16 @@ export const editProfile = async (req,res)=>{
                 if(user.avatar){
                     fs.unlinkSync(user.avatar)
                 }
-                user.avatar = req.file.path
+                user.avatar = User.avatarPath + '/' + req.file.filename
             }
             
             // await user.save()
             user = await User.findByIdAndUpdate(user._id || user.id , user)
 
-        })
-        return res.status(200).json({
-            message : 'Profile Updated Successfully',
-            data  : user
+            return res.status(200).json({
+                message : 'Profile Updated Successfully',
+                data  : user
+            })
         })
     } catch (error) {
         

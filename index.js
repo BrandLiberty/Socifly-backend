@@ -1,8 +1,11 @@
+import config  from './config.json' assert { type: "json" };
+
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import passport from 'passport';
 import jwtStrategy from './config/passport_jwt.js'
+import passportLocal from './config/passport-local-strategy.js'
 const __dirname = path.resolve(path.dirname(''));
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -32,13 +35,43 @@ app.set('view options', { layout: true });
 app.use(express.static('./assets'));
 
 // Configuring Parser 
+import multer from 'multer'
+const upload = multer()
+app.use('/auth/edit-profile',upload.any())
 app.use(express.json())
 app.use(express.urlencoded())
 
 // MAKE AVAILABLE UPLOADS OF THE USER 
 app.use('/uploads',express.static(__dirname + '/uploads'))
 
+import session from 'express-session'
+
+import MongoStore from 'connect-mongo'
+app.use(session({
+    name : 'Socifly',
+    secret : "4597",
+    saveUninitialized : false,
+    resave:false,
+    cookie:{
+        maxAge:(1000*60*100)
+    },
+    store : new MongoStore(
+        {
+                mongoUrl : config.MONGO_URL
+        },
+        {
+            mongooseConnection : db,
+            autoRemove : 'disabled'
+        },
+        function(err){
+            console.log(err || 'connect-mongo setup ok!!')
+        }
+    )
+}));
+
 app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.setAuthenticatedUser);
 
 // Mapping Routes 
 import routes from './routes/index.js'

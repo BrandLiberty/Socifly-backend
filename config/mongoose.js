@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+import config  from '../config.json' assert { type: "json" };
 
-mongoose.connect('mongodb://127.0.0.1/Solicify');
+mongoose.connect(config.MONGO_URL);
 
 const db = mongoose.connection;
 
