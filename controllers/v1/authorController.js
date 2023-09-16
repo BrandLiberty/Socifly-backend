@@ -1,6 +1,9 @@
 import Category from '../../models/Category.js'
 import Images from '../../models/Images.js'
 
+import User from '../../models/User.js'
+import Activity from '../../models/activity.js'
+
 
 
 export const home = (req,res)=>{
@@ -30,10 +33,49 @@ export const uploads = async(req,res)=>{
     }
 }
 
-export const manageUser = (req,res)=>{
+export const manageUser = async(req,res)=>{
     try {
+        console.log('Nakli coder',User)
+        const {email} = req.body
+        if(email){
+            let user = await User.find({email: email}).sort({name : 1})
+            return res.render('manage_user',{
+                title: 'Socifly : Users',
+                user
+            })
+        }
+        const {phone} = req.body
+        if(phone){
+            let user = await User.find({phone: phone}).sort({name : 1})
+            return res.render('manage_user',{
+                title: 'Socifly : Users',
+                user
+            })
+        }        
+        const {name} = req.body
+        if(name){
+            let user = await User.find({name: name}).sort({name : 1})
+            return res.render('manage_user',{
+                title: 'Socifly : Users',
+                user
+            })
+        }        
+        const {tbc} = req.query
+        if(tbc){
+            let date = new Date()
+            let user = await User.find({
+                bday_day : date.getDate(),
+                bday_month : date.getMonth()
+            }).sort({name : 1})
+            return res.render('manage_user',{
+                title: 'Socifly : Users',
+                user
+            })
+        }        
+        let user = await User.find({}).sort({name : 1})
         return res.render('manage_user',{
-            title: 'Socifly : Users'
+            title: 'Socifly : Users',
+            user
         })
     } catch (error) {
         
@@ -69,6 +111,26 @@ export const signOut = function(req,res){
         if (err) { return next(err); }
         return res.redirect('/v1/author');
       });
+}
+
+export const userController = async function(req, res){
+    try {
+        console.log('In USER CONtroller')
+        const {id} = req.params
+        // const ided = req.params.id
+        let user = await User.findById(id)
+        console.log('In MANAGE USER',user)
+        let activity = await Activity.findOne({user : id})
+        console.log(activity)
+        return res.render('profile.ejs',{
+            title: 'Socifly:ManageUser',
+            user,
+            activity
+        } )
+    } catch (error) {
+        console.log('Error in User Controller ',error)
+        return res.redirect('back')
+    }
 }
 
 export const createCategory = async(req,res)=>{

@@ -11,17 +11,21 @@
 <div class="profile-section">
    
     <div class="profile-left">
-        <img src="/images/Profile.png" alt="Profile">
+        <%let avatar = '/images/Profile.png'%>
+        <%if(user.avatar){%>
+            <%avatar = 'http://localhost:8000'+ user.avatar%>
+            <%}%>
+        <img src="<%=avatar%>" alt="Profile">
         <div class="user-info">
-            <div class="user-name">User Name</div>
+            <div class="user-name"><%= user.name%></div>
             <div class="info">
-                <span class="heading">Phone No</span>: 9876543210
+                <span class="heading">Phone No</span>: <%=user.phone%>
             </div>
             <div class="info">
-                <span class="heading">Email</span>: useremail@email.com
+                <span class="heading">Email</span>: <%=user.email%>
             </div>
             <div class="info">
-                <span class="heading">Birth Date</span>: 01/01/2001
+                <span class="heading">Birth Date</span>: <%=user.bday_day%>/<%=user.bday_month%>/<%=user.bday_year%>
             </div>
         </div>
         <div class="action-buttons">
@@ -34,19 +38,19 @@
         <div class="activity-info">
             <div class="activity-heading">User Activity</div>
             <div class="activity-item">
-                <span class="heading">Sign-up date</span>: 12/15/2022
+                <span class="heading">Sign-up date</span>: <%=new Date(user.createdAt).toDateString()%>
             </div>
             <div class="activity-item">
-                <span class="heading">Last Log-In</span>: 01/02/2023 10:30 AM
+                <span class="heading">Last Log-In</span>: <%= new Date(activity.loginTime).toDateString()%>
             </div>
             <div class="activity-item">
                 <span class="heading">Last Log-Out</span>: 01/02/2023 10:30 AM
             </div>
             <div class="activity-item">
-                <span class="heading">No. of Likes</span>: 10
+                <span class="heading">No. of Likes</span>: <%=user.likes.length%>
             </div>
             <div class="activity-item">
-                <span class="heading">No. of Shares</span>: 15
+                <span class="heading">No. of Shares</span>: <%=user.shared.length%>
             </div>
           
             <div class="activity-item">
