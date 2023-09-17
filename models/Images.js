@@ -5,28 +5,28 @@ const __dirname = path.resolve(path.dirname(''));
 const IMAGE_PATH = path.join('/uploads/images');
 
 const imageSchema = new mongoose.Schema({
-    category : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Category',
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         required: true
     },
-    path : {
+    path: {
         type: String
     },
-    users : [
+    users: [
         {
-            type : mongoose.Schema.Types.ObjectId,
-            ref  : 'Users'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Users'
         }
     ],
-    downloads : {
-        type:  Number
+    downloads: {
+        type: Number
     },
-    likes : {
-        type : Number
+    likes: {
+        type: Number
     }
-},{
-    timestamps  : true
+}, {
+    timestamps: true
 })
 
 let storage = multer.diskStorage({
@@ -39,10 +39,10 @@ let storage = multer.diskStorage({
     }
 })
 
-imageSchema.statics.uploadImage = multer({storage : storage}).single('image');
+imageSchema.statics.uploadImage = multer({ storage: storage }).array('images');
 // userSchema.statics.uploadImages = multer({storage : storage})
 imageSchema.statics.imagePath = IMAGE_PATH;
 
-const Image = mongoose.model('Image',imageSchema)
+const Images = mongoose.model('Images', imageSchema)
 
-export default Image
+export default Images

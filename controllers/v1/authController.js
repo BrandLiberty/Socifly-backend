@@ -7,6 +7,8 @@ import bcrypt from "bcrypt";
 import crypto from 'crypto';
 import otplib from 'otplib'
 const saltRounds = 10;
+import path from 'path'
+const __dirname = path.resolve(path.dirname(''));
 
 import signupMailer from "../../mailers/auth/signup_mailer.js"
 import updatedEmailMailer from "../../mailers/update/email_mailer.js";
@@ -142,13 +144,14 @@ export const editProfile = async (req,res)=>{
             // Updating Phone 
             if(user.phone!== phone){
                 console.log('LOG : Phone nuber update pending')
+                user.phone  = phone
             }
             
             // Updating Avatar 
             if(req.file){
                 console.log('INFO : FILE INFO',req?.file)
                 if(user.avatar){
-                    fs.unlinkSync(user.avatar)
+                    fs.unlinkSync(path.join(__dirname , user.avatar))
                 }
                 user.avatar = User.avatarPath + '/' + req.file.filename
             }

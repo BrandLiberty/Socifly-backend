@@ -12,10 +12,7 @@ export const home = (req,res)=>{
         
     }
 }
-// Adding Delete Functionality in Categories
-export const del_cat = async (req,res) =>{
 
-}
 export const uploads = async(req,res)=>{
     try {
 
@@ -92,11 +89,44 @@ export const createCategory = async(req,res)=>{
     }
 }
 
-export const getCategory = async (req,res)=>{
-    console.log('LOG : get Category')
+export const uploadImages = (req,res)=>{
+    console.log('LOG  : /v1/author/action/upload-images')
     try {
-        let category = await Category.find({}).select('type')
-        console.log
+        Images.uploadImage(req,res,async function(err){
+            if(err){
+                console.log('ERROR: MULTER ERROR',err)
+            }
+            console.log('***',req.body)
+            console.log('***',req.files)
+
+            const {category} = req.body
+
+            let cat = await Category.findOne({type : category})
+
+            if(req.files.length > 0){
+                for(let file of req.files){
+                    Images.create({
+                        category : cat._id,
+                        path : Images.imagePath + '/' + file.filename
+                    })
+                    .then(async image=>{
+                        // cat.images.push(image._id)
+                        await Category.findByIdAndUpdate(cat._id , {
+                            $push : {
+                                images : image._id
+                            }
+                        })
+                    })
+                    .catch(err=>{
+                        console.log('ERROR : Raised From IMage Create',err)
+                    })
+                }
+                // cat.save()
+            }
+
+
+            return res.redirect('back')
+        })
     } catch (error) {
         
     }

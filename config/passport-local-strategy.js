@@ -13,6 +13,7 @@ passport.use(new LocalStrategy({
     passReqToCallback: true
     },
     function(req,email,password,done){
+        console.log('email')
         if(email === 'brandliberty@socifly' && password === '!@#12qw~' ){
             return done(null , user)
         }else{

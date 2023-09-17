@@ -35,9 +35,9 @@ app.set('view options', { layout: true });
 app.use(express.static('./assets'));
 
 // Configuring Parser 
-import multer from 'multer'
-const upload = multer()
-app.use('/auth/edit-profile',upload.any())
+// import multer from 'multer'
+// const upload = multer()
+// app.use('/auth/edit-profile',upload.any())
 app.use(express.json())
 app.use(express.urlencoded())
 
@@ -47,7 +47,7 @@ app.use('/uploads',express.static(__dirname + '/uploads'))
 import session from 'express-session'
 
 import MongoStore from 'connect-mongo'
-app.use(session({
+app.use('/v1/author',session({
     name : 'Socifly',
     secret : "4597",
     saveUninitialized : false,
@@ -70,8 +70,8 @@ app.use(session({
 }));
 
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(passport.setAuthenticatedUser);
+app.use('/v1/author',passport.session());
+app.use('/v1/author',passport.setAuthenticatedUser);
 
 // Mapping Routes 
 import routes from './routes/index.js'
