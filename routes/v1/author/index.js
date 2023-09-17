@@ -8,7 +8,8 @@ import{
     signOut,
     uploads,
     manageUser,
-    manageAdmin
+    manageAdmin,
+    userController
 }from '../../../controllers/v1/authorController.js'
 
 import action from './action.js'
@@ -21,10 +22,11 @@ router.post('/signin',passport.authenticate(
     ,signIn
 )
 router.get('/signout',signOut)
+router.post('/manage-user',passport.checkAuthentication,manageUser)
 router.get('/manage-user',passport.checkAuthentication,manageUser)
 router.get('/manage-admin',passport.checkAuthentication,manageAdmin)
 router.get('/upload', passport.checkAuthentication,uploads)
-
+router.get('/manage-admin/user-controller/:id', userController)
 router.use('/action',passport.checkAuthentication,action)
 
 export default router

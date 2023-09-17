@@ -4,34 +4,38 @@
     <div class="inner_box">
 
         <div class="info">
-            <span class="heading">Email</span> : useremail@email.com
+            <span class="heading">Email</span> : <%=user.email%>
         </div>
 
         <div class="info">
-            <span class="heading">Phone No</span> : 9876543210
+            <span class="heading">Phone No</span> : <%=user.phone%>
         </div>
         <div class="info">
-            <span class="heading">Birth Date</span> : 01/01/2001
+            <span class="heading">Birth Date</span> : <%=user.bday_day%>/<%=user.bday_month%>/<%=user.bday_year%>
         </div>
     </div>
     <div class="inner_box">
 
         <div class="info">
-            <span class="heading">No. of Likes</span> : 10
+            <span class="heading">No. of Likes</span> : <%=user.likes.length%>
         </div>
 
         <div class="info">
-            <span class="heading">No. of Shares</span> : 15
+            <span class="heading">No. of Shares</span> : <%=user.shared.length%>
         </div>
  
     </div>
     <div class="inner_box2">
         <div class="profile-info">
-        <img src="/images/Profile.png" alt="Profile">
+            <%let avatar = '/images/Profile.png'%>
+        <%if(user.avatar){%>
+            <%avatar = 'http://localhost:8000'+ user.avatar%>
+            <%}%>
+        <img src="<%=avatar%>" alt="Profile">
         <div class="profile-link">
      
-        <div class="user-name">User Name</div>
-        <a class="link" href="http://localhost:8000/v1/profile">Profile Section</a>
+        <div class="user-name"><%=user.name%></div>
+        <a class="link" href="/v1/author/manage-admin/user-controller/<%=user._id%>">Profile Section</a>
     </div>
      
 </div>

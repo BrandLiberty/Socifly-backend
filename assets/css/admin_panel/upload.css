@@ -1,6 +1,7 @@
 body{
     align-items: center;
     justify-content: center;  
+    height: 76vh;
 }
 .uploads{
     margin-top: 10rem;
@@ -72,6 +73,17 @@ button:hover {
 select#category {
     /* Add your CSS styles for the category dropdown here */
     /* For example, you can set a width, change the background color, etc. */
+    width: 200px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.dropdown{
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0px 0px 4px;
     width: 200px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;

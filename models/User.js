@@ -23,6 +23,15 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String
     },
+    bday_day: {
+        type : Number
+    },
+    bday_month: {
+        type : Number
+    },
+    bday_year: {
+        type : Number
+    },
     verified : {
         type : Boolean,
         default : false

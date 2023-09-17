@@ -13,6 +13,7 @@ const __dirname = path.resolve(path.dirname(''));
 import signupMailer from "../../mailers/auth/signup_mailer.js"
 import updatedEmailMailer from "../../mailers/update/email_mailer.js";
 import forgetPasswordMailer from "../../mailers/auth/forgetPassword_mailer.js";
+import Activity from "../../models/activity.js";
 
 // SIGNIN 
 export const createSession = async function(req,res){
@@ -34,6 +35,13 @@ export const createSession = async function(req,res){
             })
         }
 
+        let activity = await Activity.findOne({user : user._id})
+        if(!activity){
+            activity = await Activity.create({user : user._id})
+        }
+        activity.loginTime = new Date().getTime()
+        activity.save()
+
         return res.status(200).json({
             message : `Welcome ${user.name}`,
             data :{
@@ -52,7 +60,7 @@ export const signUp = async(req,res)=>{
     console.log('API : /v1/auth/signup')
     console.log('req.body',req?.body)
 
-    const {email , password , confirm_password , name, phone} = req.body
+    const {email , password , confirm_password , name, phone ,bday} = req.body
 
     if(!email || !password || !confirm_password){
         console.log('MIssing information');
@@ -81,10 +89,25 @@ export const signUp = async(req,res)=>{
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
 
-    User.create({email , hash , name, phone })
+    let birth = new Date(bday)
+    if(birth.getDate()===NaN){
+        return res.status(400).json({
+            message : 'Date Not Found'
+        })
+    }
+
+    User.create({email , 
+        hash , 
+        name, 
+        phone, 
+        bday_day : birth.getDate(),
+        bday_month : birth.getMonth(),
+        bday_year : birth.getFullYear()
+    })
     .then(async user => {
         let key = crypto.randomBytes(20).toString('hex');
         signupMailer(user,key)
+        await Activity.create({user : user._id})
         await PendingUser.create({
             user : user._id,
             hash : key
