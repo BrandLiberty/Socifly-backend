@@ -10,14 +10,20 @@
 
         <div class="maincategory">
         <form action="/v1/author/action/create-category" method="post">
+            <select id="languag" name="lang" class="dropdown uppercase" size="1">
+                <option value="hindi">Hindi</option>
+                <option value="english">English</option>
+                <option value="marathi">Marathi</option>
+                <option value="wallpaper">Wallpaper</option>
+            </select>
             <input type="text" id="customCategorys" name="category" placeholder="Enter Custom Category">
             <button class="addCategoryBtn" type="submit">Add Category</button>
             <!-- Manage category Btn -->
-            <button id="deleteCategoryBtn" class="addCategoryBtn">Manage Category</button>
         </form>
+        <button id="deleteCategoryBtns" class="addCategoryBtn">Manage Category</button>
         </div>
 
-        <form id="" action="" method="Post" class="mngCat">
+        <form id="mngCat" action="" method="Post" class="mngCat">
             
             
                 <% for(let el of categories){%>
@@ -33,10 +39,11 @@
             class="froms">
 
             <label for="category" class="selcat">Select Category:</label>
-            <select id="language" name="language" class="dropdown uppercase" size="1">
+            <select id="language" name="lang" class="dropdown uppercase" size="1">
                 <option value="hindi">Hindi</option>
                 <option value="english">English</option>
                 <option value="marathi">Marathi</option>
+                <option value="wallpaper">Wallpaper</option>
             </select>
             <select id="category" name="category" size="1" class="uppercase">
                 <%for(let el of categories){%>

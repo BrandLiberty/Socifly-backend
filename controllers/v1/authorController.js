@@ -1,5 +1,6 @@
 import Category from '../../models/Category.js'
 import Images from '../../models/Images.js'
+import Language from '../../models/Language.js'
 
 import User from '../../models/User.js'
 import Activity from '../../models/activity.js'
@@ -133,18 +134,30 @@ export const userController = async function(req, res){
 export const createCategory = async(req,res)=>{
     console.log('LOG : /v1/author/action/create-category',req.body)
     try {
-        const {category}  = req.body
+        const {category , lang }  = req.body
+
+        if(!category || !lang){
+            return res.redirect('/v1/author/upload')
+        }
 
         let cat = await Category.findOne({type : category})
-
+        
         if(cat){
             return res.redirect('/v1/author/upload')
         }
 
+        
         cat = await Category.create({
-            type : category
+            type : category,
+            lang
         })
-
+        let langu = await Language.findOne({lang : lang})
+            if(!langu){
+                langu = await Language.create({lang : lang})
+            }
+            langu.category.push(cat._id)
+            langu.save()
+        
         return res.redirect('/v1/author/upload')
     } catch (error) {
         
@@ -161,13 +174,23 @@ export const uploadImages = (req,res)=>{
             console.log('***',req.body)
             console.log('***',req.files)
 
-            const {category} = req.body
+            const {category , lang} = req.body
+
+            if(!category || !lang){
+                console.log('cat , lang not found')
+                return res.redirect('back')
+            }
 
             let cat = await Category.findOne({type : category})
+            let langu = await Language.findOne({lang : lang})
+
+
+            console.log('langu',langu)
 
             if(req.files.length > 0){
                 for(let file of req.files){
                     Images.create({
+                        lang : lang,
                         category : cat._id,
                         path : Images.imagePath + '/' + file.filename
                     })
@@ -176,6 +199,11 @@ export const uploadImages = (req,res)=>{
                         await Category.findByIdAndUpdate(cat._id , {
                             $push : {
                                 images : image._id
+                            }
+                        })
+                        await Language.findByIdAndUpdate(langu._id , {
+                            $push : {
+                                images : image._id,
                             }
                         })
                     })

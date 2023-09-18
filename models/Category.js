@@ -1,6 +1,11 @@
 import mongoose from 'mongoose'
 
 const categorySchema = new mongoose.Schema({
+    lang : {
+        type : String,
+        required : true,
+        enum : ['english' , 'hindi' , 'marathi' ,'wallpaper']
+    },
     type : {
         type :String,
         required : true,
@@ -18,12 +23,18 @@ const categorySchema = new mongoose.Schema({
             ref  : 'Users'
         }
     ],
-    downloads : {
-        type:  Number
-    },
-    likes : {
-        type : Number
-    }
+    downloads: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }
+    ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }
+    ]
 },{
     timestamps : true
 })

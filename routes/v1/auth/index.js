@@ -9,7 +9,8 @@ import {
     verifyEmail ,
     resetPassword,
     verifyResetPasswordOtp,
-    newPassword
+    newPassword,
+    handleLike
 } from "../../../controllers/v1/authController.js"
 import passport from "passport";
 
@@ -21,6 +22,9 @@ router.post('/create-session',createSession)
 
 // Edit Profile 
 router.post('/edit-profile',passport.authenticate('jwt',{session : false}),editProfile)
+
+// Like
+router.get('/like-image',passport.authenticate('jwt',{session : false}),handleLike)
 
 // Update Email 
 router.get('/update-email',updateEmail)

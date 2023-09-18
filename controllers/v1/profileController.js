@@ -1,5 +1,4 @@
 import User from "../../models/User.js";
-
 export const getProfileInfo = async(req,res)=>{
     console.log('API : /profile/get-info',req?.user)
 
@@ -13,6 +12,7 @@ export const getProfileInfo = async(req,res)=>{
                 phone : req.user.phone,
                 image : req.user?.avatar
             }
+            
         })
     }else{
         return res.status(401).json({

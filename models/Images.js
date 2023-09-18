@@ -5,26 +5,32 @@ const __dirname = path.resolve(path.dirname(''));
 const IMAGE_PATH = path.join('/uploads/images');
 
 const imageSchema = new mongoose.Schema({
+    lang: {
+        type: String,
+        required: true,
+        enum: ['english', 'hindi', 'marathi', 'wallpaper']
+    },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         required: true
     },
     path: {
-        type: String
+        type: String,
+        required: true
     },
-    users: [
+    downloads: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Users'
+            ref: 'User',
         }
     ],
-    downloads: {
-        type: Number
-    },
-    likes: {
-        type: Number
-    }
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }
+    ]
 }, {
     timestamps: true
 })

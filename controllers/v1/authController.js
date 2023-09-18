@@ -1,6 +1,8 @@
 import User from "../../models/User.js"
 import PendingUser from "../../models/PendingUser.js";
 import OtpVerification from "../../models/OtpVerification.js";
+import Images from '../../models/Images.js'
+import Category from '../../models/Category.js'
 import jwt from 'jsonwebtoken'
 import * as fs from 'fs'
 import bcrypt from "bcrypt";
@@ -427,5 +429,63 @@ export const newPassword = async (req, res)=>{
 
     } catch (error) {
         console.log('ERROR : Raised from new Password request')
+    }
+}
+
+export const handleLike = async(req,res)=>{
+    console.log('CAlled handle Likes',req.query , req.user)
+
+    try {
+        const {id} = req.query
+        const {user}= req
+
+        if(!id || !user){
+            return res.status(400).json({
+                message : 'Incomplete Request'
+            })
+        }
+
+        let image = await Images.findById(id)
+        let category = await Category.findById(image.category)
+
+        if(image.likes.indexOf(user._id)===-1){
+            image = await Images.findByIdAndUpdate(image._id , {
+                $push : {
+                    likes : user._id
+                }
+            },{new :true})
+
+            category = await Category.findByIdAndUpdate(category._id , {
+                $push : {
+                    likes : user._id
+                }
+            },{new :true})
+        }else{
+            image = await Images.findByIdAndUpdate(image._id , {
+                $pull : {
+                    likes : user._id
+                }
+            },{new :true})
+
+            category = await Category.findByIdAndUpdate(category._id , {
+                $pull : {
+                    likes : user._id
+                }
+            },{new :true})
+        }
+
+        return res.status(200).json({
+            message : 'Likes Updated',
+            data : {
+                image : image.likes.length,
+                category : category.likes.length
+            }
+        })
+
+    } catch (error) {
+        console.log('Error in likes',error)
+        return res.status(500).json({
+            message : 'Internal Server Error'
+        })
     }
 }
