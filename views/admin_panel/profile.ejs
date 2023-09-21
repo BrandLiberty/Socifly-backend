@@ -5,7 +5,7 @@
     <h1>Profile Section</h1>
 
 <div class="back-button-container">
-    <a class="back-button" href="http://localhost:8000/v1/manage_user">Back</a>
+    <a class="back-button" href="http://16.171.251.116:8000/v1/manage_user">Back</a>
 </div>
 </div>
 <div class="profile-section">
@@ -13,7 +13,7 @@
     <div class="profile-left">
         <%let avatar = '/images/Profile.png'%>
         <%if(user.avatar){%>
-            <%avatar = 'http://localhost:8000'+ user.avatar%>
+            <%avatar = 'http://16.171.251.116:8000'+ user.avatar%>
             <%}%>
         <img src="<%=avatar%>" alt="Profile">
         <div class="user-info">
