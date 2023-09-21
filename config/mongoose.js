@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import config  from '../config.json' assert { type: "json" };
+//import config  from '../config.json' assert { type: "json" };
 
-mongoose.connect(config.MONGO_URL);
+mongoose.connect("mongodb+srv://brand_liberty_web:brandliberty1010@cluster0.wqfp3cw.mongodb.net/Socifly");
 
 const db = mongoose.connection;
 
