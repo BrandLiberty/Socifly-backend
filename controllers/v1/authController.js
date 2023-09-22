@@ -460,6 +460,13 @@ export const handleLike = async(req,res)=>{
                     likes : user._id
                 }
             },{new :true})
+
+            await User.findByIdAndUpdate(user._id , {
+                $push : {
+                    likes : image._id
+                }
+            },{new :true})
+    
         }else{
             image = await Images.findByIdAndUpdate(image._id , {
                 $pull : {
@@ -470,6 +477,11 @@ export const handleLike = async(req,res)=>{
             category = await Category.findByIdAndUpdate(category._id , {
                 $pull : {
                     likes : user._id
+                }
+            },{new :true})
+            await User.findByIdAndUpdate(user._id , {
+                $pull : {
+                    likes : image._id
                 }
             },{new :true})
         }
