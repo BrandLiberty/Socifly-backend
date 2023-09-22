@@ -255,7 +255,7 @@ export const verifyEmail = async (req,res)=>{
         if(user && !pUser){
             return res.render('info.ejs',{
                 title : 'Socifly',
-                message : 'User already Updatedd'
+                message : 'User already Updated'
             })
         }
         
