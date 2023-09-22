@@ -11,7 +11,7 @@ body, h1, p {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        height: 100vh;
+        /* height: 100vh; */
     }
     
 
@@ -22,38 +22,22 @@ div {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-}
-
-/* Style the heading */
-h1 {
-    font-size: 3rem;
-    color: #fff;
-    margin-bottom: 1rem;
+    height: 87vh;
 }
 
 /* Style the paragraph */
-p {
+h1 {
     font-size: 1.5rem;
     color: #b5b5b5;
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1.5px; */
     text-align: center;
     max-width: 80%;
 }
 
 /* Add styles for the image above "Socifly" */
 .image-container {
-    height: 300px;
+    height: 30vh;
     text-align: center;
-    /* margin-bottom: 20px; */
 }
 
-/* Add a media query for responsiveness */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-    p {
-        font-size: 1rem;
-    }
-}
+
