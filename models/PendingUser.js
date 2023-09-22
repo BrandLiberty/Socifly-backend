@@ -8,7 +8,7 @@ const pendingUserSchema = new mongoose.Schema({
     },
     previousEmail :{
         type :String,
-        unique : true
+        
     },
     updatedEmail : {
         type : String,
