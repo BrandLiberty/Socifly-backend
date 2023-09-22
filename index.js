@@ -1,4 +1,4 @@
-import config  from './config.json' assert { type: "json" };
+//import config  from './config.json' assert { type: "json" };
 
 import express from 'express'
 import cors from 'cors'
@@ -7,7 +7,7 @@ import passport from 'passport';
 import jwtStrategy from './config/passport_jwt.js'
 import passportLocal from './config/passport-local-strategy.js'
 const __dirname = path.resolve(path.dirname(''));
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 const app = express();
 
 // CONNECTING TO THE DATABASE 
@@ -57,7 +57,7 @@ app.use('/v1/author',session({
     },
     store : new MongoStore(
         {
-                mongoUrl : config.MONGO_URL
+                mongoUrl :"mongodb+srv://brand_liberty_web:brandliberty1010@cluster0.wqfp3cw.mongodb.net/"
         },
         {
             mongooseConnection : db,
