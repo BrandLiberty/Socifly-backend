@@ -249,7 +249,9 @@ export const verifyEmail = async (req,res)=>{
         let user = await User.findOne({email})
         let pUser = await PendingUser.findOne({user : user._id || user.id})
         if(!user){
-            return res.status(404)
+            return res.status(404).json({
+                messgae : 'User Not Exists'
+            })
         }
 
         if(user && !pUser){
@@ -317,7 +319,7 @@ export const resetPassword = async (req,res)=>{
         })
         .then(user_for_otp_request =>{
             console.log(`LOG : ${user.email} has requested to reset the otp`)
-            // forgetPasswordMailer(user , otp)
+            forgetPasswordMailer(user , otp)
             return res.status(200).json({
                 message : 'Reset Password',
                 userId : user._id
