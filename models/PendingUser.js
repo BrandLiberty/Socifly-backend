@@ -8,7 +8,6 @@ const pendingUserSchema = new mongoose.Schema({
     },
     previousEmail :{
         type :String,
-        
     },
     updatedEmail : {
         type : String,

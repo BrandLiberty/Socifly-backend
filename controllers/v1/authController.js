@@ -64,7 +64,7 @@ export const signUp = async(req,res)=>{
 
     const {email , password , confirm_password , name, phone ,bday} = req.body
 
-    if(!email || !password || !confirm_password){
+    if(!email || !password || !confirm_password || !bday){
         console.log('MIssing information');
         return res.status(400).json({
             message : 'Insufficient Information',
@@ -81,22 +81,30 @@ export const signUp = async(req,res)=>{
     let user = await User.findOne({email : email})
     console.log('User Found before creating the schema is',user)
 
-    if(user){
+    if(user && user.verified===true){
         console.log('User already Exists');
         return res.status(200).json({
             message: 'User Already Exists'
         })
     }
 
+    
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
-
+    
     let birth = new Date(bday)
-    if(birth.getDate()===NaN){
-        return res.status(400).json({
-            message : 'Date Not Found'
+    if(user && user.verified===false){
+        console.log('You are already registered. Check Your Spam');
+        return res.status(200).json({
+            message: 'User Already Exists'
         })
     }
+    if(birth.getDate()===NaN){
+        return res.status(400).json({
+            message : 'Date is required'
+        })
+    }
+    
 
     User.create({email , 
         hash , 
@@ -112,7 +120,8 @@ export const signUp = async(req,res)=>{
         await Activity.create({user : user._id})
         await PendingUser.create({
             user : user._id,
-            hash : key
+            hash : key,
+            updatedEmail : email
         })
         console.log('User Created Successfully');
         return res.status(200).json({
@@ -321,7 +330,7 @@ export const resetPassword = async (req,res)=>{
             console.log(`LOG : ${user.email} has requested to reset the otp`)
             forgetPasswordMailer(user , otp)
             return res.status(200).json({
-                message : 'Reset Password',
+                message : `OTP sent to ${email}`,
                 userId : user._id
             })
         })
@@ -337,6 +346,52 @@ export const resetPassword = async (req,res)=>{
         })
     }
 } 
+// export const resendOtp = async (req,res)=>{
+//     console.log('API : /v1/auth/resend-otp',req.query)
+//     try {
+//         let user = await User.findOne({email: req.query.email})
+
+//         if(!user || user.verified===false){
+//             return res.status(400).json({
+//                 message : 'No Such User Exists!'
+//             })
+//         }
+//         let secretKey = user.hash
+//         let otp = otplib.authenticator.generate(secretKey);
+//         console.log('LOG : OTP generated is ',otp)
+
+//         let confirmUser = await OtpVerification.findOne({user : user._id})
+
+//         if(confirmUser){
+//            await OtpVerification.findByIdAndDelete(confirmUser._id)
+//         }
+
+//         OtpVerification.create({
+//             user : user._id,
+//             otp,
+//             sendingTime : new Date().getTime(),
+//             hash : user.hash
+//         })
+//         .then(user_for_otp_request =>{
+//             console.log(`LOG : ${user.email} has requested to reset the otp`)
+//             forgetPasswordMailer(user , otp)
+//             return res.status(200).json({
+//                 message : 'Reset Password',
+//                 userId : user._id
+//             })
+//         })
+//         .catch(err=>{
+//             console.log('ERROR : Raised from Reset Password',err)
+//         })
+//     } catch (error) {
+//         if(error){
+//             console.log('ERROR : Internal Server Error',error)
+//         }
+//         return res.status(200).json({
+//             message: 'Internal Server Error'
+//         })
+//     }
+// } 
 
 // Verify Reset Password OTp 
 export const verifyResetPasswordOtp = async (req,res)=>{
