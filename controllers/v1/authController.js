@@ -47,7 +47,7 @@ export const createSession = async function(req,res){
         return res.status(200).json({
             message : `Welcome ${user.name}`,
             data :{
-                token : jwt.sign(user.toJSON(),'aman',{expiresIn:'10000000'})
+                token : jwt.sign(user.toJSON(),'aman',{expiresIn:`${1000*60*60*24*7*4}`})
             }
         })
 
@@ -330,7 +330,7 @@ export const resetPassword = async (req,res)=>{
             console.log(`LOG : ${user.email} has requested to reset the otp`)
             forgetPasswordMailer(user , otp)
             return res.status(200).json({
-                message : `OTP sent to ${email}`,
+                message : `OTP sent to ${user.email}`,
                 userId : user._id
             })
         })
