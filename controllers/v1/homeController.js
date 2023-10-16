@@ -28,17 +28,18 @@ export const getCategory = async (req, res) => {
 export const getImages = async (req, res) => {
     console.log('LOG : GET IMAGES')
     try {
-        const { lang } = req.query
+        let { lang } = req.query
         if (!lang) {
             lang = 'english'
         }
-        let images = await Images.find({ lang }).select('path').sort({ 'createdAt': -1 })
+        let images = await Images.find({ lang }).populate({path: 'category' , select : 'type'}).select('path').sort({ 'createdAt': -1 })
         console.log('images', images)
         return res.status(200).json({
             message: 'Images',
             data: images
         })
     } catch (error) {
+        console.log('Error in get images',error)
         return res.status(500).json({
             message: "Internal Server Error"
         })
