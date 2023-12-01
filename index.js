@@ -28,7 +28,7 @@ app.set('views',['./views','./views/info','./views/auth','./views/admin_panel',]
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);
 
-// DISABLING GLOBAL LAYOUTS 
+// ENABLING GLOBAL LAYOUTS 
 app.set('view options', { layout: true });
 
 // CONFIGURING PATH TO STATIC FILES 

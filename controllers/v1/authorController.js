@@ -1,3 +1,4 @@
+// admin panel controller ::: Server SIde Rendering 
 import Category from '../../models/Category.js'
 import Images from '../../models/Images.js'
 import Language from '../../models/Language.js'

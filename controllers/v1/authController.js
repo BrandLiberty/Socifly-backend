@@ -1,3 +1,4 @@
+// User Authentication controller :: Client Side Rendering
 import User from "../../models/User.js"
 import PendingUser from "../../models/PendingUser.js";
 import OtpVerification from "../../models/OtpVerification.js";
@@ -558,3 +559,4 @@ export const handleLike = async(req,res)=>{
         })
     }
 }
+
