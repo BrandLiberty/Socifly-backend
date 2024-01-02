@@ -17,10 +17,13 @@
                 <option value="wallpaper">Wallpaper</option>
             </select>
             <input type="text" id="customCategorys" name="category" placeholder="Enter Custom Category">
+            <input type="checkbox" name="special" id="toggleRadioBtn" >Special
             <button class="addCategoryBtn" type="submit">Add Category</button>
             <!-- Manage category Btn -->
         </form>
         <button id="deleteCategoryBtns" class="addCategoryBtn">Manage Category</button>
+        <a href="/v1/author/action/manage-images" id="deleteCategoryBtns" class="addCategoryBtn">Manage Images</button></a>
+        
         </div>
 
         <form id="mngCat" action="" method="Post" class="mngCat">
@@ -37,14 +40,15 @@
 
         <form id="fileInput" action="/v1/author/action/upload-images" method="POST" enctype="multipart/form-data"
             class="froms">
-
-            <label for="category" class="selcat">Select Category:</label>
+            
+            <label for="category" class="selcat">Select Language:</label>
             <select id="language" name="lang" class="dropdown uppercase" size="1">
                 <option value="hindi">Hindi</option>
                 <option value="english">English</option>
                 <option value="marathi">Marathi</option>
                 <option value="wallpaper">Wallpaper</option>
             </select>
+            <label for="category" class="selcat">Select Category:</label>
             <select id="category" name="category" size="1" class="uppercase">
                 <%for(let el of categories){%>
                     <option value = "<%=el.type%>" class="uppercase"> <%=el.type%> </option>
@@ -53,7 +57,7 @@
                 <!-- Add more categories as needed -->
             </select>
 
-            <label for="language" class="select">Select Language:</label>
+            <label for="language" class="select"</label>
             
             <input type="file" name="images" accept="image/*" multiple>
             <button type="submit">Upload</button>

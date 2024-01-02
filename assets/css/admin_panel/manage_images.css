@@ -1,0 +1,52 @@
+.margin-top-100px{
+    margin-top: 80px;
+}
+.nav-nav {
+  width: 100%;
+  background-color: #3a033fe6;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+}
+
+.nav-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 10px;
+  display: inline-block;
+}
+
+/* Main section styles */
+.main-section {
+  display: flex;
+  margin-bottom: 75px;
+}
+
+/* Two columns with 25-75 ratio */
+.column-25 {
+    margin-top: 55px;
+    width: 15%;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.column-75 {
+    margin-top: 55px;
+    width: 85%;
+    padding: 20px;
+    margin-left: 15%; /* Create space for the fixed column */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+/* Sample images */
+.column-75 img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover; /* Maintain aspect ratio for images */
+    margin-bottom: 20px;
+}

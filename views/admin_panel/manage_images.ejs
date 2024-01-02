@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/css/admin_panel/manage_images.css" />
+<div>
+ <%- include('_navbar.ejs') %>
+<div class="margin-top-100px">
+  <nav class="nav-nav">
+    <%for(i of data){%>
+        <a href="#" class="uppercase"><span  onclick="changeLanguage('<%=i?.lang%>')"><%=i?.lang%></span></a>
+        <%}%>
+  </nav>
+
+  <!-- Main Section with Two Columns -->
+  <div class="main-section" id="mi-ms">
+    <!-- 25% Column -->
+    <div class="column-25">
+        <%for(j of data[Lindex]?.category){%>
+            <div>
+            <button>
+                    <%=j?.type%>
+            </button>
+        </div>
+            <%}%>
+        
+      <!-- Your content for the 25% column goes here -->
+    </div>
+
+    <!-- 75% Column with Images -->
+    <div class="column-75">
+        <%for(k of data[Lindex]?.images){%>
+            <%if(C_id === ''){%>
+                <img src="<%=k?.path%>" alt="">
+            
+                <%}else{%>
+                    <%if(k?.category===C_id){%>
+                        <img src="<%=k?.path%>" alt="">
+                        <%}%>
+                    <%}%>
+            <br>
+            <br>
+            <%}%>
+     
+      <!-- Add more images as needed -->
+    </div>
+  </div>
+</div>
+
+<script src="/script/manage_images.js"></script>
+
+<!-- <div>
+    <%=Object.keys(data)%>
+    <br>
+    <br>
+    <%=typeof(data)%>
+    <br>
+    <br>
+    <%=data[0].lang%>
+    <br>
+    <br>
+    <%for(i of data[0].images){%>
+        <%=i.updatedAt%>
+        <img src="<%=i.path%>" alt="">
+        <br>
+        <%}%>
+    <br>
+    <br>
+
+    <%=data[0].images[0].path%>
+    <br>
+    <br>
+    <br>
+    <br>
+    a
+    <br>
+    <br>
+    <%= data%>
+</div> -->

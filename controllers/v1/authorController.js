@@ -135,7 +135,11 @@ export const userController = async function(req, res){
 export const createCategory = async(req,res)=>{
     console.log('LOG : /v1/author/action/create-category',req.body)
     try {
-        const {category , lang }  = req.body
+        const {category , lang , special }  = req.body
+        let spcl
+        if(special==='on'){
+            spcl = true
+        }else{spcl = false}
 
         if(!category || !lang){
             return res.redirect('/v1/author/upload')
@@ -144,13 +148,16 @@ export const createCategory = async(req,res)=>{
         let cat = await Category.findOne({type : category})
         
         if(cat){
+            cat.special = spcl
+            cat.save()
             return res.redirect('/v1/author/upload')
         }
 
         
         cat = await Category.create({
             type : category,
-            lang
+            lang,
+            special : spcl
         })
         let langu = await Language.findOne({lang : lang})
             if(!langu){
@@ -222,3 +229,18 @@ export const uploadImages = (req,res)=>{
         
     }
 }
+
+export const manageImages = async (req,res)=>{
+    console.log('Manage Images Called by', req.user)
+
+    let data = await Language.find({}).populate('category').populate('images')
+    console.log('Data to sent is ',{data})
+    return res.render('manage_images',{
+        title : 'Images',
+        data : data,
+        C_id  : '',
+        Lindex : 0,
+        lang : 'english'
+    })
+}
+

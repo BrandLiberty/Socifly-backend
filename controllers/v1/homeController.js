@@ -32,7 +32,7 @@ export const getImages = async (req, res) => {
         if (!lang) {
             lang = 'english'
         }
-        let images = await Images.find({ lang }).populate({path: 'category' , select : 'type'}).select('path').sort({ 'createdAt': -1 })
+        let images = await Images.find({ lang }).populate({path: 'category' , select : 'type special'}).select('path').sort({ 'createdAt': -1 })
         console.log('images', images)
         return res.status(200).json({
             message: 'Images',
@@ -63,7 +63,7 @@ export const getImagesByCategory = async (req, res) => {
         }
 
         let langu = await Language.findOne({ lang: lang })
-        let cat = await Category.findOne({ type: category })
+        let cat = await Category.findOne({  type: category })
         if (!cat) {
             return res.status(400).json({
                 message: 'No Such Category'

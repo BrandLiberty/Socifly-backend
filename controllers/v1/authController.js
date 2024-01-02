@@ -394,6 +394,7 @@ export const resetPassword = async (req,res)=>{
 //     }
 // } 
 
+
 // Verify Reset Password OTp 
 export const verifyResetPasswordOtp = async (req,res)=>{
     console.log('API : /v1/auth/verify-reset-password',req.body,req.params)

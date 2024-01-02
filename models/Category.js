@@ -6,6 +6,10 @@ const categorySchema = new mongoose.Schema({
         required : true,
         enum : ['english' , 'hindi' , 'marathi' ,'wallpaper']
     },
+    special : {
+        type : Boolean,
+        default : false
+    },
     type : {
         type :String,
         required : true,
