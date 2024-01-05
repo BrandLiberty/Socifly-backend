@@ -5,6 +5,9 @@ import Language from '../../models/Language.js'
 
 import User from '../../models/User.js'
 import Activity from '../../models/activity.js'
+import fs from 'node:fs'
+import path from 'path'
+const __dirname = path.resolve(path.dirname(''));
 
 
 
@@ -231,16 +234,65 @@ export const uploadImages = (req,res)=>{
 }
 
 export const manageImages = async (req,res)=>{
-    console.log('Manage Images Called by', req.user)
+    console.log('Manage Images Called by', req.query)
+    const {Lindex , C_id} = req.query
+    if(Lindex || C_id){
+        let data = await Language.find({}).populate({path: 'category', populate : {path : 'images'}}).populate('images')
+        console.log('Data to sent is ',{data})
+        return res.render('manage_images',{
+            title : 'Images',
+            data : data,
+            C_id  : C_id || '',
+            Lindex : Lindex,
+            lang : 'english'
+        })
 
-    let data = await Language.find({}).populate('category').populate('images')
-    console.log('Data to sent is ',{data})
-    return res.render('manage_images',{
-        title : 'Images',
-        data : data,
-        C_id  : '',
-        Lindex : 0,
-        lang : 'english'
-    })
+    }  
+        let data = await Language.find({}).populate({path: 'category', populate : {path : 'images'}}).populate('images')
+        console.log('Data to sent is ',{data})
+        return res.render('manage_images',{
+            title : 'Images',
+            data : data,
+            C_id  : '',
+            Lindex : 0,
+            lang : 'english'
+        })
 }
+export const deleteImage = async(req,res)=>{
+    console.log('Delete Image By Id',req.query)
+    const {id} = req.query
+    if(!id){
+        console.log('id not found')
+        return res.redirect('back')
+    }
 
+    let image = await Images.findById(id)
+
+    if(!image){
+        console.log('Image not found')
+        res.redirect('/v1/author/action/manage-images')
+    }
+
+    Category.findByIdAndUpdate(image.category,{
+        $pull : {images : image._id}
+    },{ new: true }).then(data=>{
+        console.log('Image Removed from Category', data)
+    }).catch(err=>console.log('Unable to remove image drom Category',err))
+
+    Language.findOneAndUpdate({lang : image.lang},{
+        $pull : {images : image._id}
+    },{new : true}).then(data=>{
+        console.log('Image Removed from Languages', data)
+    }).catch(err=>console.log('Unable to remove image drom Language',err))
+
+    if(image.path){
+        fs.unlinkSync(path.join(__dirname , image.path))
+    }
+    Images.findByIdAndDelete(id).then(data=>{
+        console.log('Image Removed from Images', data)
+        return res.redirect('/v1/author/action/manage-images')
+    }).catch(err=>console.log('Unable to remove image drom Images',err))
+
+
+
+}

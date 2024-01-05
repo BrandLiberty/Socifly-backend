@@ -55,7 +55,7 @@ export const getImagesByCategory = async (req, res) => {
         }
 
         if(lang==='wallpaper'){
-            let wallImages = await Images.find({lang: 'wallpaper'}).select('path').sort({ createdAt: -1 })
+            let wallImages = await Images.find({lang: 'wallpaper'}).select('path special').sort({ createdAt: -1 })
             return res.status(200).json({
                 message: `Wallpaper category images`,
                 data: wallImages
@@ -83,7 +83,7 @@ export const getImagesByCategory = async (req, res) => {
         let images = []
 
         for (let id of cat.images) {
-            let image = await Images.findById(id).populate({path: 'category' , select : 'type'}).select('path').sort({ createdAt: -1 })
+            let image = await Images.findById(id).populate({path: 'category' , select : 'type special'}).select('path').sort({ createdAt: -1 })
             images.push(image)
         }
         return res.status(200).json({

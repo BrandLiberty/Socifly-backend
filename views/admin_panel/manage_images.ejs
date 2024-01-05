@@ -1,75 +1,82 @@
 <link rel="stylesheet" href="/css/admin_panel/manage_images.css" />
+
+<script></script>
 <div>
- <%- include('_navbar.ejs') %>
-<div class="margin-top-100px">
-  <nav class="nav-nav">
-    <%for(i of data){%>
-        <a href="#" class="uppercase"><span  onclick="changeLanguage('<%=i?.lang%>')"><%=i?.lang%></span></a>
+  <%- include('_navbar.ejs') %>
+  <div class="margin-top-100px">
+    <nav class="nav-nav">
+      <%{let uc = "underlineClass"%>
+      <%for(let i = 0 ; i<data?.length ; i++){%>
+        <%if(i==Lindex){uc="underlineClass"}else{uc=''}%>
+      <a href="/v1/author/action/manage-images/?Lindex=<%=i%>" class="uppercase hover_underline <%=uc%>"
+        ><span
+          ><%=data[i]?.lang%></span>
+      </a>
         <%}%>
-  </nav>
-
-  <!-- Main Section with Two Columns -->
-  <div class="main-section" id="mi-ms">
-    <!-- 25% Column -->
-    <div class="column-25">
-        <%for(j of data[Lindex]?.category){%>
-            <div>
-            <button>
-                    <%=j?.type%>
-            </button>
+        <%}%>
+    </nav>
+   </div> 
+    <!-- Main Section with Two Columns -->
+    <div class="main-section" id="mi-ms">
+      <!-- 25% Column -->
+      <div class="column-25" id="categories_">
+        <%for(let j = 0 ; j<data[Lindex]?.category?.length ; j++){%>
+        <div>
+          <a href="/v1/author/action/manage-images/?Lindex=<%=Lindex%>&C_id=<%=data[Lindex]?.category[j]?._id%>" class="category_tabs"><%=data[Lindex]?.category[j]?.type%></a>
         </div>
-            <%}%>
-        
-      <!-- Your content for the 25% column goes here -->
-    </div>
+        <%}%>
 
-    <!-- 75% Column with Images -->
-    <div class="column-75">
-        <%for(k of data[Lindex]?.images){%>
+        <!-- Your content for the 25% column goes here -->
+      </div>
+
+      <!-- 75% Column with Images -->
+      <div class="column-75">
+        <%for(let m =0 ; m<data[Lindex]?.category?.length ; m++){%>
+          <%for(let n = 0 ; n <data[Lindex]?.category[m]?.images?.length ; n++){%>
+          <div class="image-container">
+            <%console?.log('******',C_id,data[Lindex]?.category[m]?.id)%>
+            <%console?.log('0******',C_id)%>
             <%if(C_id === ''){%>
-                <img src="<%=k?.path%>" alt="">
-            
-                <%}else{%>
-                    <%if(k?.category===C_id){%>
-                        <img src="<%=k?.path%>" alt="">
-                        <%}%>
-                    <%}%>
-            <br>
-            <br>
-            <%}%>
-     
-      <!-- Add more images as needed -->
+              <%console?.log('1******',C_id)%>
+                <img src="<%=data[Lindex]?.category[m]?.images[n]?.path%>" alt="" />
+                <div class="options-icon" onclick="toggleOptionsPanel(this)">...</div>
+                  <div class="options-panel">
+                    <a class='options-panel_items' href='/v1/author/action/delete-images/?id=<%=data[Lindex]?.category[m]?.images[n]?._id%>'><p class='options-panel_items'>Delete</p></a>
+                    <p class='options-panel_items'  >RePosition</p>
+                    <p class='options-panel_items'  >Replace</p>
+                  </div>
+                
+            <%}else{%> 
+              <%if(data[Lindex]?.category[m]?.id===C_id){%>
+                <%console?.log('2******',C_id,data[Lindex]?.category[m]?._id)%>
+                <img src="<%=data[Lindex]?.category[m]?.images[n]?.path%>" alt="" />
+                <div class="options-icon" onclick="toggleOptionsPanel(this)">...</div>
+                  <div class="options-panel">
+                    <a href='/v1/author/action/delete-images/?id=<%=data[Lindex]?.category[m]?.images[n]?._id%>'><p class='options-panel_items'>Delete</p></a>
+                    <p class='options-panel_items'>RePosition</p>
+                    <p class='options-panel_items'>Replace</p>
+                  </div>
+               
+              <%}else{%>
+                <%}%> 
+            <%}%> 
+              </div>
+          <%}%>
+        <%}%>
+      </div>
     </div>
-  </div>
 </div>
 
-<script src="/script/manage_images.js"></script>
 
-<!-- <div>
-    <%=Object.keys(data)%>
-    <br>
-    <br>
-    <%=typeof(data)%>
-    <br>
-    <br>
-    <%=data[0].lang%>
-    <br>
-    <br>
-    <%for(i of data[0].images){%>
-        <%=i.updatedAt%>
-        <img src="<%=i.path%>" alt="">
-        <br>
-        <%}%>
-    <br>
-    <br>
+  <script>
+    function toggleOptionsPanel(icon) {
+      var panel = icon.nextElementSibling;
+      panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    }
 
-    <%=data[0].images[0].path%>
-    <br>
-    <br>
-    <br>
-    <br>
-    a
-    <br>
-    <br>
-    <%= data%>
-</div> -->
+    function deleteImage(id){
+      console?.log('Image to be deleted',id)
+    }
+  </script>
+  <script src="/script/manage_images?.js"></script>
+

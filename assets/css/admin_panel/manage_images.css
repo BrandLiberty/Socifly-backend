@@ -7,6 +7,7 @@
   padding: 10px;
   text-align: center;
   position: fixed;
+  z-index: 10;
 }
 
 .nav-nav a {
@@ -42,11 +43,74 @@
     flex-wrap: wrap;
     justify-content: space-around;
 }
+.image-container {
+  position: relative;
+}
 
 /* Sample images */
 .column-75 img {
-    width: 300px;
-    height: 200px;
-    object-fit: cover; /* Maintain aspect ratio for images */
-    margin-bottom: 20px;
+  width: 300px;
+  height: 200px;
+  object-fit: cover; /* Maintain aspect ratio for images */
+  margin-bottom: 20px;
+}
+
+/* Three dots icon and options panel */
+.options-icon {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
+  border: 1px solid #3a033fe6;
+  font-size: 24px;
+  background-color: #3a033fe6;
+  color: white;
+}
+
+.options-panel {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 2px;
+  z-index: 1;
+  width: 90px;
+  background-color: #3a033fe6;
+}
+.options-panel_items{
+  margin: 0px;
+  color: white;
+  text-decoration: none;
+  width: 88px;
+}
+.options-panel_items:hover{
+  cursor: pointer;
+  background-color: white;
+  color: #3a033fe6;
+}
+.category_tabs{
+  width: 100%;
+  background-color: white;
+  margin: 10px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2px;
+  text-decoration: none;
+  color : #3a033fe6
+}
+.category_tabs:hover{
+  background-color: #3a033fe6;
+  color: white;
+  cursor: pointer;
+}
+.underlineClass{
+  text-decoration: underline;
+  border: 1px solid white;
+}
+.hover_underline:hover{
+  text-decoration: underline;
 }
