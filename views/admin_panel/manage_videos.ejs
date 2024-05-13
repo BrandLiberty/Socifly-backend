@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/css/admin_panel/manage_images.css" />
+
+<script></script>
+<div>
+  <%- include('_navbar.ejs') %>
+  <div class="margin-top-100px">
+    <nav class="nav-nav">
+      <%{let uc = "underlineClass"%>
+      <%for(let i = 0 ; i<data?.length ; i++){%>
+        <%if(i==Lindex){uc="underlineClass"}else{uc=''}%>
+      <a href="/v1/author/action/manage-videos/?Lindex=<%=i%>" class="uppercase hover_underline <%=uc%>"
+        ><span
+          ><%=data[i]?.lang%></span>
+      </a>
+        <%}%>
+        <%}%>
+    </nav>
+   </div> 
+    <!-- Main Section with Two Columns -->
+    <div class="main-section" id="mi-ms">
+      <!-- 25% Column -->
+      <div class="column-25" id="categories_">
+        <%for(let j = 0 ; j<data[Lindex]?.videoCategory?.length ; j++){%>
+        <div>
+          <a href="/v1/author/action/manage-videos/?Lindex=<%=Lindex%>&C_id=<%=data[Lindex]?.videoCategory[j]?._id%>" class="category_tabs"><%=data[Lindex]?.videoCategory[j]?.type%></a>
+        </div>
+        <%}%>
+
+        <!-- Your content for the 25% column goes here -->
+      </div>
+
+      <!-- 75% Column with Images -->
+      <div class="column-75">
+        <%for(let m =0 ; m<data[Lindex]?.videoCategory?.length ; m++){%>
+          <%for(let n = 0 ; n <data[Lindex]?.videoCategory[m]?.images?.length ; n++){%>
+          <div class="image-container">
+            <%console?.log('******',C_id,data[Lindex]?.videoCategory[m]?.id)%>
+            <%console?.log('0******',C_id)%>
+            <%if(C_id === ''){%>
+              <%console?.log('1******',C_id)%>
+                <video controls preload="metadata">
+                    <source src="<%=data[Lindex]?.videoCategory[m]?.images[n]?.path%>" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                <div class="options-icon" onclick="toggleOptionsPanel(this)">...</div>
+                  <div class="options-panel">
+                    <a class='options-panel_items' href='/v1/author/action/delete-videos/?id=<%=data[Lindex]?.videoCategory[m]?.images[n]?._id%>'><p class='options-panel_items'>Delete</p></a>
+                    <p class='options-panel_items'  >RePosition</p>
+                    <p class='options-panel_items'  >Replace</p>
+                  </div>
+                
+            <%}else{%> 
+              <%if(data[Lindex]?.videoCategory[m]?.id===C_id){%>
+                <%console?.log('2******',C_id,data[Lindex]?.videoCategory[m]?._id)%>
+                <video controls preload="metadata">
+                    <source src="<%=data[Lindex]?.videoCategory[m]?.images[n]?.path%>">
+                    Your browser does not support the video tag.
+                  </video>
+                <div class="options-icon" onclick="toggleOptionsPanel(this)">...</div>
+                  <div class="options-panel">
+                    <a href='/v1/author/action/delete-videos/?id=<%=data[Lindex]?.videoCategory[m]?.images[n]?._id%>'><p class='options-panel_items'>Delete</p></a>
+                    <p class='options-panel_items'>RePosition</p>
+                    <p class='options-panel_items'>Replace</p>
+                  </div>
+               
+              <%}else{%>
+                <%}%> 
+            <%}%> 
+              </div>
+          <%}%>
+        <%}%>
+      </div>
+    </div>
+</div>
+
+
+  <script>
+    function toggleOptionsPanel(icon) {
+      var panel = icon.nextElementSibling;
+      panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function deleteImage(id){
+      console?.log('Image to be deleted',id)
+    }
+  </script>
+  <script src="/script/manage_images?.js"></script>
+

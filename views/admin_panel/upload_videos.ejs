@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/css/admin_panel/upload.css">
+<link rel="stylesheet" href="/css/admin_panel/upload_video.css">
 
 
 
@@ -6,10 +7,10 @@
 
     <div class="uploads">
 
-        <h1>Upload Image</h1>
+        <h1>Add Video Category</h1>
 
         <div class="maincategory">
-        <form action="/v1/author/action/create-category" method="post">
+        <form action="/v1/author/action/create-video-category" method="post">
             <select id="languag" name="lang" class="dropdown uppercase" size="1">
                 <option value="hindi">Hindi</option>
                 <option value="english">English</option>
@@ -24,8 +25,7 @@
 
         <br>
 
-        <button id="deleteCategoryBtns" class="addCategoryBtn">Manage Category</button>
-        <a href="/v1/author/action/manage-images" id="deleteCategoryBtns" class="addCategoryBtn">Manage Images</button></a>
+        <a href="/v1/author/action/manage-videos" class="addCategoryBtn">Manage Videos</button></a>
         
         </div>
 
@@ -40,8 +40,8 @@
                  <%}%>
              </ul>
         </form>
-        <h2>UPLOAD IMAGES</h2>
-        <form id="fileInput" action="/v1/author/action/upload-images" method="POST" enctype="multipart/form-data"
+        <h2>UPLOAD VIdeos</h2>
+        <form id="fileInput" action="/v1/author/action/upload-videos" method="POST" enctype="multipart/form-data"
             class="froms">
             
             <label for="category" class="selcat">Select Language:</label>
@@ -61,14 +61,42 @@
             </select>
             <label for="language" class="select"</label>
             
-            <input type="file" name="images" accept="image/*" multiple>
+            <input type="file" name="videos" id="videos" accept="video/*" multiple>
             <button type="submit">Upload</button>
 
         </form>
-
-        <div id="uploaded-images">
-            <!-- The uploaded images will be displayed here -->
-        </div>
+        <div class="video-container" id="videoContainer"></div>
     </div>
+
+
+
+    <script>
+        // Display selected videos
+        document.getElementById('videos').addEventListener('change', function () {
+          displaySelectedVideos(this.files);
+        });
+    
+        function displaySelectedVideos(files) {
+          const videoContainer = document.getElementById('videoContainer');
+          videoContainer.innerHTML = '';
+    
+          for (const file of files) {
+            const videoItem = document.createElement('div');
+            videoItem.classList.add('video-item');
+    
+            const video = document.createElement('video');
+            video.setAttribute('controls', 'controls');
+            video.setAttribute('preload', 'metadata');
+    
+            const source = document.createElement('source');
+            source.src = URL.createObjectURL(file);
+            source.type = file.type;
+    
+            video.appendChild(source);
+            videoItem.appendChild(video);
+            videoContainer.appendChild(videoItem);
+          }
+        }
+      </script>
 
     <script src="/script/upload.js"></script>

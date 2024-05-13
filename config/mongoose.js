@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 
 let dbUrl = "mongodb+srv://brand_liberty_web:brandliberty1010@cluster0.wqfp3cw.mongodb.net/Socifly"
 let local ='mongodb://127.0.0.1/socifly_db'
-mongoose.connect(dbUrl);
+mongoose.connect(local);
 
 const db = mongoose.connection;
 

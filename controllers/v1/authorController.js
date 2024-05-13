@@ -5,6 +5,9 @@ import Language from '../../models/Language.js'
 
 import User from '../../models/User.js'
 import Activity from '../../models/activity.js'
+
+import VideoCategory from '../../models/VideoCategory.js'
+import Videos from '../../models/Videos.js'
 import fs from 'node:fs'
 import path from 'path'
 const __dirname = path.resolve(path.dirname(''));
@@ -32,6 +35,19 @@ export const uploads = async(req,res)=>{
         })
     } catch (error) {
         
+    }
+}
+
+export const uploadVideo = async (req,res)=>{
+    try{
+        let categories = await VideoCategory.find({}).lean()
+        console.log("LOG : rendering Category",categories)
+        return res.render('upload_videos.ejs',{
+            title: 'Socifly : Uploads Videos',
+            categories
+        })
+    }catch(err){
+        console.log('ERROR Rendering VIdeos',err)
     }
 }
 
@@ -175,6 +191,53 @@ export const createCategory = async(req,res)=>{
     }
 }
 
+export const createVideoCategory = async(req,res)=>{
+    console.log('LOG : /v1/author/action/create-video-category',req.body)
+    try {
+        const {category , lang , special }  = req.body
+        let spcl
+        if(special==='on'){
+            spcl = true
+        }else{spcl = false}
+
+        if(!category || !lang){
+            console.log('HUHUHU')
+
+            return res.redirect('/v1/author/upload-video')
+        }
+
+        let cat = await VideoCategory.findOne({type : category})
+        
+        if(cat){
+            console.log('HUHUHU',cat)
+            cat.special = spcl
+            cat.save()
+            // return res.redirect('/v1/author/upload-video')
+        }
+
+        
+        cat = await VideoCategory.create({
+            type : category,
+            lang,
+            special : spcl
+        })
+        console.log('HUHUHU')
+
+        let langu = await Language.findOne({lang : lang})
+            if(!langu){
+                langu = await Language.create({lang : lang})
+            }
+            console.log('HUHUHU')
+            langu.videoCategory.push(cat._id)
+            langu.save()
+        
+        return res.redirect('/v1/author/upload-video')
+    } catch (error) {
+        console.log('ERROR CRETING UPLOAD VIDEO CATEGORY',error)
+    }
+}
+
+
 export const uploadImages = (req,res)=>{
     console.log('LOG  : /v1/author/action/upload-images')
     try {
@@ -232,6 +295,63 @@ export const uploadImages = (req,res)=>{
         
     }
 }
+export const uploadVideos = (req,res)=>{
+    console.log('LOG  : /v1/author/action/upload-videos')
+    try {
+        Videos.uploadVideo(req,res,async function(err){
+            if(err){
+                console.log('ERROR: MULTER ERROR',err)
+            }
+            console.log('***',req.body)
+            console.log('***',req.files)
+
+            const {category , lang} = req.body
+
+            if(!category || !lang){
+                console.log('cat , lang not found')
+                return res.redirect('back')
+            }
+
+            let cat = await VideoCategory.findOne({type : category})
+            let langu = await Language.findOne({lang : lang})
+
+
+            console.log('langu',langu)
+
+            if(req.files.length > 0){
+                for(let file of req.files){
+                    Videos.create({
+                        lang : lang,
+                        category : cat._id,
+                        path : Videos.videoPath + '/' + file.filename
+                    })
+                    .then(async image=>{
+                        // cat.images.push(image._id)
+                        await VideoCategory.findByIdAndUpdate(cat._id , {
+                            $push : {
+                                images : image._id
+                            }
+                        })
+                        await Language.findByIdAndUpdate(langu._id , {
+                            $push : {
+                                videos : image._id,
+                            }
+                        })
+                    })
+                    .catch(err=>{
+                        console.log('ERROR : Raised From IMage Create',err)
+                    })
+                }
+                // cat.save()
+            }
+
+
+            return res.redirect('back')
+        })
+    } catch (error) {
+        
+    }
+}
 
 export const manageImages = async (req,res)=>{
     console.log('Manage Images Called by', req.query)
@@ -251,6 +371,31 @@ export const manageImages = async (req,res)=>{
         let data = await Language.find({}).populate({path: 'category', populate : {path : 'images'}}).populate('images')
         console.log('Data to sent is ',{data})
         return res.render('manage_images',{
+            title : 'Images',
+            data : data,
+            C_id  : '',
+            Lindex : 0,
+            lang : 'english'
+        })
+}
+export const manageVideos = async (req,res)=>{
+    console.log('Manage VIdeos Called by', req.query)
+    const {Lindex , C_id} = req.query
+    if(Lindex || C_id){
+        let data = await Language.find({}).populate({path: 'videoCategory', populate : {path : 'images'}}).populate('videos')
+        console.log('Data to sent is ',{data})
+        return res.render('manage_videos',{
+            title : 'Images',
+            data : data,
+            C_id  : C_id || '',
+            Lindex : Lindex,
+            lang : 'english'
+        })
+
+    }  
+    let data = await Language.find({}).populate({path: 'videoCategory', populate : {path : 'images'}}).populate('videos')
+        console.log('Data to sent is ',{data})
+        return res.render('manage_videos',{
             title : 'Images',
             data : data,
             C_id  : '',
@@ -292,6 +437,44 @@ export const deleteImage = async(req,res)=>{
         console.log('Image Removed from Images', data)
         return res.redirect('/v1/author/action/manage-images')
     }).catch(err=>console.log('Unable to remove image drom Images',err))
+
+
+
+}
+export const deleteVideo = async(req,res)=>{
+    console.log('Delete Image By Id',req.query)
+    const {id} = req.query
+    if(!id){
+        console.log('id not found')
+        return res.redirect('back')
+    }
+
+    let video = await Videos.findById(id)
+
+    if(!video){
+        console.log('Image not found')
+        res.redirect('/v1/author/action/manage-videos')
+    }
+
+    VideoCategory.findByIdAndUpdate(video.category,{
+        $pull : {images : video._id}
+    },{ new: true }).then(data=>{
+        console.log('Image Removed from Category', data)
+    }).catch(err=>console.log('Unable to remove video drom Category',err))
+
+    Language.findOneAndUpdate({lang : video.lang},{
+        $pull : {videos : video._id}
+    },{new : true}).then(data=>{
+        console.log('Image Removed from Languages', data)
+    }).catch(err=>console.log('Unable to remove video drom Language',err))
+
+    if(video.path){
+        fs.unlinkSync(path.join(__dirname , video.path))
+    }
+    Images.findByIdAndDelete(id).then(data=>{
+        console.log('Image Removed from Images', data)
+        return res.redirect('/v1/author/action/manage-videos')
+    }).catch(err=>console.log('Unable to remove video drom Images',err))
 
 
 

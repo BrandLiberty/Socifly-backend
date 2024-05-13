@@ -18,6 +18,18 @@ const languageSchema = new mongoose.Schema({
             type : mongoose.Schema.Types.ObjectId,
             ref : 'Images'
         }
+    ],
+    videoCategory : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'VideoCategory'
+        }
+    ],
+    videos : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'Videos'
+        }
     ]
 },{
     timestamps:true

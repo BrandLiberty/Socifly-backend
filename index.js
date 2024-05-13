@@ -21,12 +21,12 @@ import expressLayouts from 'express-ejs-layouts'
 app.use(expressLayouts);
 
 // CONFIGURING VIEW ENGINE 
-app.set('view engine','ejs');
-app.set('views',['./views','./views/info','./views/auth','./views/admin_panel',]);
+app.set('view engine', 'ejs');
+app.set('views', ['./views', './views/info', './views/auth', './views/admin_panel',]);
 
 // MANAGING STYLES AND SCRIPTS FROM VARIOUS VIEWS FOLLOWING LAYOUTS 
-app.set('layout extractStyles',true);
-app.set('layout extractScripts',true);
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 // ENABLING GLOBAL LAYOUTS 
 app.set('view options', { layout: true });
@@ -42,44 +42,44 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 // MAKE AVAILABLE UPLOADS OF THE USER 
-app.use('/uploads',express.static(__dirname + '/uploads'))
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 import session from 'express-session'
 
 import MongoStore from 'connect-mongo'
-app.use('/v1/author',session({
-    name : 'Socifly',
-    secret : "4597",
-    saveUninitialized : false,
-    resave:false,
-    cookie:{
-        maxAge:(1000*60*100)
+app.use('/v1/author', session({
+    name: 'Socifly',
+    secret: "4597",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: (1000 * 60 * 100)
     },
-    store : new MongoStore(
+    store: new MongoStore(
         {
-                mongoUrl :"mongodb+srv://brand_liberty_web:brandliberty1010@cluster0.wqfp3cw.mongodb.net/"
+            mongoUrl: "mongodb+srv://brand_liberty_web:brandliberty1010@cluster0.wqfp3cw.mongodb.net/"
         },
         {
-            mongooseConnection : db,
-            autoRemove : 'disabled'
+            mongooseConnection: db,
+            autoRemove: 'disabled'
         },
-        function(err){
+        function (err) {
             console.log(err || 'connect-mongo setup ok!!')
         }
     )
 }));
 
 app.use(passport.initialize());
-app.use('/v1/author',passport.session());
-app.use('/v1/author',passport.setAuthenticatedUser);
+app.use('/v1/author', passport.session());
+app.use('/v1/author', passport.setAuthenticatedUser);
 
 // Mapping Routes 
 import routes from './routes/index.js'
-app.use('/',routes)
+app.use('/', routes)
 
-app.listen(PORT , err =>{
-  if(err){
-    console.log('Error connecting to the server at Port' , PORT)
-  }
-  console.log('Successfully COnnected to the Server at Port' , PORT)
+app.listen(PORT, err => {
+    if (err) {
+        console.log('Error connecting to the server at Port', PORT)
+    }
+    console.log('Successfully COnnected to the Server at Port', PORT)
 })

@@ -117,6 +117,7 @@ export const signUp = async(req,res)=>{
     })
     .then(async user => {
         let key = crypto.randomBytes(20).toString('hex');
+        // add the code to send otp to phone
         signupMailer(user,key)
         await Activity.create({user : user._id})
         await PendingUser.create({
